@@ -4,8 +4,8 @@ Baseline Gate Validation Wrapper
 Validates that all required baseline output files exist and pass validation.
 """
 
+import json
 import sys
-import os
 from pathlib import Path
 
 
@@ -61,33 +61,94 @@ def run_well_architected_validation():
         return False
 
 
-def main():
-    """Main baseline gate validation."""
-    print("=== BASELINE GATE VALIDATION ===")
+def load_manifest(manifest_path: Path) -> dict | None:
+    if not manifest_path.exists():
+        print(f"✗ Baseline manifest missing: {manifest_path}")
+        return None
+    try:
+        content = manifest_path.read_text(encoding="utf-8")
+        return json.loads(content)
+    except json.JSONDecodeError as exc:
+        print(f"✗ Baseline manifest is invalid JSON: {exc}")
+        return None
+    except Exception as exc:  # pragma: no cover
+        print(f"✗ Failed to read baseline manifest: {exc}")
+        return None
 
-    # Required baseline files
+
+def check_manifest_dependencies(manifest: dict) -> bool:
+    ok = True
+    baseline_index = manifest.get("paths", {}).get("baseline_docs_dir", "docs/baseline")
+    # Explicit files to check
     required_files = [
         ("docs/baseline/SYSTEM_CHARTER.md", "System Charter"),
         ("docs/baseline/C4_Context.md", "C4 Context Diagram"),
         ("docs/baseline/C4_Container.md", "C4 Container Diagram"),
         ("docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md", "Cloud Provider Decision ADR"),
+        ("docs/baseline/BASELINE_INDEX.md", "Baseline Index"),
+        ("docs/baseline/BASELINE_HANDOFF.md", "Baseline Handoff"),
     ]
 
-    all_passed = True
+    paths_section = manifest.get("paths", {})
+    audit_files = [
+        (
+            paths_section.get(
+                "evidence_log_jsonl", "docs/audit/evidence/evidence_log.jsonl"
+            ),
+            "Evidence log (jsonl)",
+        ),
+        (
+            paths_section.get(
+                "tool_call_audit_jsonl", "docs/audit/tool_calls/tool_call_audit.jsonl"
+            ),
+            "Tool-call audit log",
+        ),
+    ]
 
-    # Check required files exist
+    registries = manifest.get("registries", [])
+
     print("\n1. Checking required baseline files...")
     for file_path, description in required_files:
         if not check_file_exists(file_path, description):
+            ok = False
+
+    print("\n2. Checking audit artifacts...")
+    for file_path, description in audit_files:
+        if not file_path:
+            continue
+        if not check_file_exists(file_path, description):
+            ok = False
+
+    print("\n3. Checking registries...")
+    for registry in registries:
+        path = registry.get("path")
+        if not path:
+            continue
+        if not check_file_exists(path, f"Registry {registry.get('id', '')}"):
+            ok = False
+
+    return ok
+
+
+def main():
+    """Main baseline gate validation."""
+    print("=== BASELINE GATE VALIDATION ===")
+
+    manifest_path = Path("docs/baseline/baseline_manifest.json")
+    manifest = load_manifest(manifest_path)
+    all_passed = True
+
+    if manifest is None:
+        all_passed = False
+    else:
+        if not check_manifest_dependencies(manifest):
             all_passed = False
 
-    # Validate Well-Architected Adherence Plan
-    print("\n2. Validating Well-Architected Adherence Plan...")
+    print("\n4. Validating Well-Architected Adherence Plan...")
     if not run_well_architected_validation():
         all_passed = False
 
-    # Summary
-    print(f"\n=== BASELINE GATE RESULT ===")
+    print("\n=== BASELINE GATE RESULT ===")
     if all_passed:
         print("✓ BASELINE GATE PASSED - All requirements satisfied")
         print("Ready to proceed with arch-docs and impl-strategy")

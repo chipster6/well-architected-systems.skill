@@ -1,5 +1,33 @@
-# CloudRail Evidence Log
+# Evidence Log
 
-| Evidence ID | Description | Location | Date |
-|---|---|---|---|
-| EVD-20260126-0001 | Initial baseline documentation package archived | s3://cloudrail-audit/baseline/2026-01-26/ | 2026-01-26 |
+This log records authoritative sources used to derive baseline requirements, constraints, and controls.
+
+## Run metadata
+- Run ID:
+- Date (UTC):
+- Provider:
+- Toolchain applicability (Kubernetes / Terraform / CDK):
+- Owner:
+
+## Evidence entries (human rollup)
+
+| Evidence ID | Retrieved (UTC) | Source type | Tool | Document / Page title | Purpose (what question it answered) | Extracted rule / decision | Normalized to (registry/doc path + field/section) | Related ADR/RFC | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+|  |  |  |  |  |  |  |  |  |  |
+
+## Summary by category
+### Provider / Well-Architected pillars
+- 
+
+### Security controls
+- 
+
+### Operational readiness
+- 
+
+### Constraints (regions/residency/latency/cost)
+- 
+
+## Exceptions / waivers
+List any deviations from provider guidance with links to the exception decision record.
+- 

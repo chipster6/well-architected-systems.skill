@@ -1,0 +1,258 @@
+{
+  "baseline_id": "",
+  "baseline_version": "1.0",
+  "status": "draft",
+  "generated_at_utc": "",
+  "owner": "",
+  "provider": "",
+  "provider_guidance_reviewed_at_utc": "",
+  "toolchain": {
+    "kubernetes": false,
+    "terraform": false,
+    "cdk": false
+  },
+  "paths": {
+    "baseline_docs_dir": "docs/baseline",
+    "architecture_docs_dir": "docs/architecture",
+    "implementation_docs_dir": "docs/implementation",
+    "registries_dir": "registries",
+    "audit_dir": "docs/audit",
+    "evidence_log_md": "docs/audit/EVIDENCE_LOG.md",
+    "evidence_log_jsonl": "docs/audit/evidence/evidence_log.jsonl",
+    "tool_call_audit_jsonl": "docs/audit/tool_calls/tool_call_audit.jsonl",
+    "tool_call_audit_summary_md": "docs/audit/tool_calls/TOOL_CALL_AUDIT_SUMMARY.md"
+  },
+  "phase_gates": {
+    "B0": { "status": "not_started", "required_artifacts": [] },
+    "B1": { "status": "not_started", "required_artifacts": [] },
+    "B2": { "status": "not_started", "required_artifacts": [] },
+    "B3": { "status": "not_started", "required_artifacts": [] },
+    "B4": { "status": "not_started", "required_artifacts": [] },
+    "B5": { "status": "not_started", "required_artifacts": [] },
+    "B6": { "status": "not_started", "required_artifacts": [] },
+    "B7": { "status": "not_started", "required_artifacts": [] }
+  },
+  "artifacts": [
+    {
+      "id": "DOCS_GOVERNANCE",
+      "path": "docs/baseline/DOCS_GOVERNANCE.md",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "governance_doc",
+      "depends_on": [],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "ADR_POLICY",
+      "path": "docs/baseline/ADR_POLICY.md",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "governance_doc",
+      "depends_on": [],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "GOLDEN_TEMPLATES_DIR",
+      "path": "docs/baseline/golden_templates",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "directory",
+      "depends_on": [],
+      "validators": ["exists"]
+    },
+    {
+      "id": "EVIDENCE_LOG_MD",
+      "path": "docs/audit/EVIDENCE_LOG.md",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "audit_log",
+      "depends_on": [],
+      "validators": ["exists"]
+    },
+    {
+      "id": "EVIDENCE_LOG_JSONL",
+      "path": "docs/audit/evidence/evidence_log.jsonl",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "audit_log",
+      "depends_on": [],
+      "validators": ["exists"]
+    },
+    {
+      "id": "TOOL_CALL_AUDIT_JSONL",
+      "path": "docs/audit/tool_calls/tool_call_audit.jsonl",
+      "phase": "B0",
+      "mandatory": true,
+      "type": "audit_log",
+      "depends_on": [],
+      "validators": ["exists"]
+    },
+    {
+      "id": "SYSTEM_CHARTER",
+      "path": "docs/baseline/SYSTEM_CHARTER.md",
+      "phase": "B1",
+      "mandatory": true,
+      "type": "system_definition",
+      "depends_on": ["DOCS_GOVERNANCE"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "SCOPE_BOUNDARIES",
+      "path": "docs/baseline/SCOPE_BOUNDARIES.md",
+      "phase": "B1",
+      "mandatory": true,
+      "type": "system_definition",
+      "depends_on": ["SYSTEM_CHARTER"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "PROVIDER_COMPARISON_RFC",
+      "path": "docs/baseline/PROVIDER_COMPARISON_RFC.md",
+      "phase": "B2",
+      "mandatory": true,
+      "type": "decision_rfc",
+      "depends_on": ["SYSTEM_CHARTER", "SCOPE_BOUNDARIES"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "CLOUD_PROVIDER_DECISION_ADR",
+      "path": "docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md",
+      "phase": "B2",
+      "mandatory": true,
+      "type": "decision_adr",
+      "depends_on": ["PROVIDER_COMPARISON_RFC"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "TOOLCHAIN_BASELINE",
+      "path": "docs/baseline/TOOLCHAIN_BASELINE.md",
+      "phase": "B3",
+      "mandatory": true,
+      "type": "toolchain_baseline",
+      "depends_on": ["CLOUD_PROVIDER_DECISION_ADR"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "WELL_ARCHITECTED_ADHERENCE_PLAN",
+      "path": "docs/baseline/WELL_ARCHITECTED_ADHERENCE_PLAN.md",
+      "phase": "B5",
+      "mandatory": true,
+      "type": "governing_contract",
+      "depends_on": ["CLOUD_PROVIDER_DECISION_ADR", "TOOLCHAIN_BASELINE"],
+      "validators": ["validate_well_architected", "no_placeholders"]
+    },
+    {
+      "id": "C4_CONTEXT",
+      "path": "docs/baseline/C4_Context.md",
+      "phase": "B6",
+      "mandatory": true,
+      "type": "c4",
+      "depends_on": ["SYSTEM_CHARTER"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "C4_CONTAINER",
+      "path": "docs/baseline/C4_Container.md",
+      "phase": "B6",
+      "mandatory": true,
+      "type": "c4",
+      "depends_on": ["C4_CONTEXT"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "DOMAIN_MODEL",
+      "path": "docs/baseline/DOMAIN_MODEL.md",
+      "phase": "B6",
+      "mandatory": true,
+      "type": "domain_stub",
+      "depends_on": ["SYSTEM_CHARTER"],
+      "validators": ["required_sections"]
+    },
+    {
+      "id": "CONTRACT_CATALOG",
+      "path": "docs/baseline/CONTRACT_CATALOG.md",
+      "phase": "B6",
+      "mandatory": true,
+      "type": "contract_stub",
+      "depends_on": ["SYSTEM_CHARTER"],
+      "validators": ["required_sections"]
+    },
+    {
+      "id": "SECURITY_BASELINE",
+      "path": "docs/baseline/SECURITY_BASELINE.md",
+      "phase": "B7",
+      "mandatory": true,
+      "type": "security_baseline",
+      "depends_on": ["WELL_ARCHITECTED_ADHERENCE_PLAN"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "OPS_READINESS_STANDARD",
+      "path": "docs/baseline/OPS_READINESS_STANDARD.md",
+      "phase": "B7",
+      "mandatory": true,
+      "type": "ops_baseline",
+      "depends_on": ["WELL_ARCHITECTED_ADHERENCE_PLAN"],
+      "validators": ["required_sections", "no_placeholders"]
+    },
+    {
+      "id": "BASELINE_INDEX",
+      "path": "docs/baseline/BASELINE_INDEX.md",
+      "phase": "B7",
+      "mandatory": true,
+      "type": "index",
+      "depends_on": [
+        "DOCS_GOVERNANCE",
+        "SYSTEM_CHARTER",
+        "CLOUD_PROVIDER_DECISION_ADR",
+        "WELL_ARCHITECTED_ADHERENCE_PLAN"
+      ],
+      "validators": ["required_sections"]
+    },
+    {
+      "id": "BASELINE_HANDOFF",
+      "path": "docs/baseline/BASELINE_HANDOFF.md",
+      "phase": "B7",
+      "mandatory": true,
+      "type": "handoff_contract",
+      "depends_on": ["BASELINE_INDEX"],
+      "validators": ["required_sections"]
+    }
+  ],
+  "registries": [
+    {
+      "id": "CONSTRAINTS_REGISTRY",
+      "path": "registries/constraints_registry.yml",
+      "mandatory": true,
+      "validators": ["exists"]
+    },
+    {
+      "id": "SECURITY_CONTROLS_CATALOG",
+      "path": "registries/security_controls_catalog.yml",
+      "mandatory": true,
+      "validators": ["exists"]
+    },
+    {
+      "id": "SLO_CATALOG",
+      "path": "registries/slo_catalog.yml",
+      "mandatory": true,
+      "validators": ["exists"]
+    }
+  ],
+  "downstream_contract": {
+    "arch_docs": {
+      "requires_baseline_gate": true,
+      "requires_handoff": "docs/baseline/BASELINE_HANDOFF.md",
+      "requires_manifest": "docs/baseline/baseline_manifest.json",
+      "required_crosslinks": [
+        "docs/baseline/BASELINE_INDEX.md",
+        "docs/baseline/WELL_ARCHITECTED_ADHERENCE_PLAN.md",
+        "registries/constraints_registry.yml"
+      ],
+      "audit_requirements": {
+        "tool_call_audit_jsonl": "docs/audit/tool_calls/tool_call_audit.jsonl",
+        "evidence_log_jsonl": "docs/audit/evidence/evidence_log.jsonl"
+      }
+    }
+  }
+}

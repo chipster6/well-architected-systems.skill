@@ -1,0 +1,1 @@
+{"evidence_id":"","retrieved_at_utc":"","source_type":"","tool":"","provider":"","doc_title":"","doc_locator":"","query_or_topic":"","extracted_rule_id":"","extracted_summary":"","normalized_targets":[{"path":"","field_or_section":"","type":"registry|doc|policy"}],"related_decisions":[{"type":"ADR|RFC","id":"","path":""}],"tool_call_ids":[""],"notes":""}
