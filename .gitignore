@@ -1,0 +1,16 @@
+# OS X filesystem artifacts
+.DS_Store
+
+# Heap dump snapshots
+Heap-*.heapsnapshot
+
+# Generated audit outputs outside canonical folders
+docs/.DS_Store
+docs/baseline/.DS_Store
+
+# Local tooling caches/config
+.opencode/
+
+# JetBrains / VSCode / IDE metadata (if present)
+.idea/
+.vscode/
