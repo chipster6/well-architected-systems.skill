@@ -125,8 +125,19 @@ declare -a FILES=(
 	".github/workflows/impl-strategy-gate.yml"
 )
 
+declare -a CREATED_FILES=()
+
 for file in "${FILES[@]}"; do
-	touch "$file"
+	if [[ ! -e "$file" ]]; then
+		: >"$file"
+		CREATED_FILES+=("$file")
+	fi
+done
+
+for file in "${CREATED_FILES[@]}"; do
+	if [[ "$file" == *.sh ]]; then
+		chmod +x "$file"
+	fi
 done
 
 echo "Repository scaffold complete."

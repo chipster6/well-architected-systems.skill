@@ -4,70 +4,92 @@ Implementation Strategy Task Graph Validation
 Validates implementation strategy and task graphs with mandatory baseline gate dependency.
 """
 
-import sys
-import os
+import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 
-def run_baseline_gate():
-    """Run the baseline gate check."""
-    print("=== CHECKING BASELINE GATE ===")
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[3]
 
-    # Change to repo root
-    repo_root = Path(__file__).parent.parent.parent
-    os.chdir(repo_root)
+
+def python_interpreter() -> str:
+    if sys.executable:
+        return sys.executable
+    for candidate in ("python3", "python"):
+        cmd = shutil.which(candidate)
+        if cmd:
+            return cmd
+    raise RuntimeError("No python interpreter available")
+
+
+def run_baseline_gate() -> bool:
+    print("=== CHECKING BASELINE GATE ===")
+    validator = repo_root() / "custom_skills/arch-baseline/scripts/validate_baseline.py"
+    if not validator.exists():
+        print(f"✗ Baseline validator missing: {validator}")
+        return False
 
     try:
-        # Run baseline gate script
         result = subprocess.run(
-            ["python", "custom_skills/arch-baseline/scripts/validate_baseline.py"],
+            [python_interpreter(), str(validator)],
             capture_output=True,
             text=True,
+            cwd=repo_root(),
         )
-
-        if result.returncode == 0:
-            print("✓ BASELINE GATE PASSED")
-            return True
-        else:
-            print("✗ BASELINE GATE FAILED")
-            print(result.stdout)
-            if result.stderr:
-                print("STDERR:", result.stderr)
-            return False
-
-    except FileNotFoundError:
-        print("✗ Could not find baseline validation script")
+    except Exception as exc:  # pragma: no cover
+        print(f"✗ Error running baseline gate: {exc}")
         return False
-    except Exception as e:
-        print(f"✗ Error running baseline gate: {e}")
-        return False
+
+    if result.returncode == 0:
+        print("✓ BASELINE GATE PASSED")
+        return True
+
+    print("✗ BASELINE GATE FAILED")
+    if result.stdout:
+        print(result.stdout.strip())
+    if result.stderr:
+        print("STDERR:", result.stderr.strip())
+    return False
+
+
+def check_required_assets() -> list[str]:
+    errors: list[str] = []
+    root = repo_root()
+    policy_file = (
+        root / "custom_skills/impl-strategy/resources/policy/gate_definitions.yml"
+    )
+    if not policy_file.exists():
+        errors.append(f"Missing gate definitions policy: {policy_file}")
+    elif policy_file.stat().st_size == 0:
+        errors.append(f"Gate definitions policy is empty: {policy_file}")
+
+    impl_dir = root / "docs/implementation"
+    if not impl_dir.exists() or not impl_dir.is_dir():
+        errors.append(f"Implementation documentation directory missing: {impl_dir}")
+
+    return errors
 
 
 def main():
-    """Main validation with baseline dependency."""
     print("=== IMPLEMENTATION STRATEGY VALIDATION ===")
 
-    # Step 1: Baseline gate check
     if not run_baseline_gate():
-        print("\nBASELINE GATE FAILED")
-        print("Implementation strategy cannot proceed until baseline passes.")
+        print("Implementation strategy gate blocked by baseline failures")
         sys.exit(1)
 
-    print("\n=== PROCEEDING WITH TASK GRAPH VALIDATION ===")
+    print("\n=== VALIDATING IMPLEMENTATION STRATEGY REQUIREMENTS ===")
+    errors = check_required_assets()
 
-    # TODO: Implement full task graph validation
-    # For now, just check that docs/implementation directory exists
-    impl_dir = Path("docs/implementation")
-    if impl_dir.exists():
-        print(f"✓ Implementation directory exists: {impl_dir}")
-        print("✓ Task graph validation placeholder passed")
-        sys.exit(0)
-    else:
-        print(f"! Implementation directory not found: {impl_dir}")
-        print("! This is expected for new repositories")
-        print("✓ Task graph validation placeholder passed")
-        sys.exit(0)
+    if errors:
+        print("Validation failed:")
+        for idx, err in enumerate(errors, 1):
+            print(f"  {idx}. {err}")
+        sys.exit(1)
+
+    print("✓ Implementation strategy prerequisites satisfied")
+    sys.exit(0)
 
 
 if __name__ == "__main__":

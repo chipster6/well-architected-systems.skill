@@ -22,7 +22,7 @@ jobs:
         
     - name: Run architecture documentation validation
       run: |
-        python custom_skills/arch-docs/scripts/validate_docs.py
+        ./tools/run_arch_docs_gate.sh
         
     - name: Upload validation results
       if: always()

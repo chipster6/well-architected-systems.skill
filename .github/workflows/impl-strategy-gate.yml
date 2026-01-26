@@ -22,7 +22,7 @@ jobs:
         
     - name: Run implementation strategy validation
       run: |
-        python custom_skills/impl-strategy/scripts/validate_task_graph.py
+        ./tools/run_impl_gate.sh
         
     - name: Upload validation results
       if: always()

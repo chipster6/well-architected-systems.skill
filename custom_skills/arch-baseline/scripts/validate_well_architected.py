@@ -5,47 +5,88 @@ Ensures the baseline document meets all requirements for the baseline gate.
 """
 
 import sys
-import os
 import re
-import yaml
-import json
 from pathlib import Path
 
 
+def parse_frontmatter_lines(lines):
+    """Parse a minimal subset of YAML used in the adherence plan frontmatter."""
+    data = {}
+    current_list_key = None
+
+    for raw_line in lines:
+        stripped = raw_line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+
+        if stripped.startswith("- "):
+            if current_list_key is None:
+                raise ValueError("List item encountered without an active key")
+            item = stripped[2:].strip()
+            data.setdefault(current_list_key, []).append(item)
+            continue
+
+        current_list_key = None
+        if ":" not in raw_line:
+            raise ValueError(f"Invalid frontmatter line: {raw_line}")
+
+        key, value = raw_line.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+
+        if "#" in value:
+            value = value.split("#", 1)[0].strip()
+
+        if not key:
+            raise ValueError("Frontmatter key cannot be empty")
+
+        if value == "":
+            data[key] = []
+            current_list_key = key
+        else:
+            data[key] = value
+
+    return data
+
+
 def load_yaml_frontmatter(file_path):
-    """Load and parse YAML frontmatter from a markdown file."""
+    """Load and parse YAML frontmatter from a markdown file without external deps."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        # Split frontmatter and content
-        if not content.startswith("---\n"):
-            print("ERROR: File must start with YAML frontmatter (---)")
-            return None, None
-
-        parts = content.split("---\n", 2)
-        if len(parts) < 3:
-            print("ERROR: Invalid YAML frontmatter format")
-            return None, None
-
-        frontmatter_str = parts[1]
-        markdown_content = parts[2]
-
-        # Parse YAML frontmatter
-        try:
-            frontmatter = yaml.safe_load(frontmatter_str)
-        except yaml.YAMLError as e:
-            print(f"ERROR: Invalid YAML frontmatter: {e}")
-            return None, None
-
-        return frontmatter, markdown_content
-
+        content = Path(file_path).read_text(encoding="utf-8")
     except FileNotFoundError:
         print(f"ERROR: File not found: {file_path}")
         return None, None
-    except Exception as e:
-        print(f"ERROR: Failed to read file: {e}")
+    except Exception as exc:
+        print(f"ERROR: Failed to read file: {exc}")
         return None, None
+
+    lines = content.splitlines(keepends=True)
+    if not lines or lines[0].strip() != "---":
+        print("ERROR: File must start with YAML frontmatter delimited by '---'")
+        return None, None
+
+    frontmatter_lines = []
+    closing_index = None
+
+    for idx, line in enumerate(lines[1:], start=1):
+        if line.strip() == "---":
+            closing_index = idx
+            break
+        frontmatter_lines.append(line.rstrip("\r\n"))
+
+    if closing_index is None:
+        print("ERROR: Closing '---' for frontmatter not found")
+        return None, None
+
+    markdown_content = "".join(lines[closing_index + 1 :])
+
+    try:
+        frontmatter = parse_frontmatter_lines(frontmatter_lines)
+    except ValueError as exc:
+        print(f"ERROR: Invalid YAML frontmatter: {exc}")
+        return None, None
+
+    return frontmatter, markdown_content
 
 
 def validate_frontmatter(frontmatter):
