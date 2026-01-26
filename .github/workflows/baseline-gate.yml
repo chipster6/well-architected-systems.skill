@@ -1,0 +1,35 @@
+name: Baseline Gate
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  baseline-gate:
+    runs-on: ubuntu-latest
+    name: Baseline Gate Validation
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Run baseline gate validation
+      run: |
+        python custom_skills/arch-baseline/scripts/validate_baseline.py
+        
+    - name: Upload validation results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: baseline-gate-results
+        path: |
+          docs/baseline/
+          custom_skills/arch-baseline/resources/schemas/
+        retention-days: 30

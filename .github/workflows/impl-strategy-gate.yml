@@ -1,0 +1,35 @@
+name: Implementation Strategy Gate
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  impl-strategy-gate:
+    runs-on: ubuntu-latest
+    name: Implementation Strategy Validation
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Run implementation strategy validation
+      run: |
+        python custom_skills/impl-strategy/scripts/validate_task_graph.py
+        
+    - name: Upload validation results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: impl-strategy-results
+        path: |
+          docs/implementation/
+          custom_skills/impl-strategy/resources/
+        retention-days: 30

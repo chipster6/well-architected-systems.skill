@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Well-Architected Adherence Plan Schema",
+  "description": "Schema for validating Well-Architected Adherence Plan documents",
+  "type": "object",
+  "properties": {
+    "doc_id": {
+      "type": "string",
+      "pattern": "^WELLARCH-BASE-\\d+$",
+      "description": "Document identifier in format WELLARCH-BASE-XXX"
+    },
+    "doc_type": {
+      "type": "string",
+      "const": "well_architected_adherence_plan",
+      "description": "Document type must be well_architected_adherence_plan"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "approved", "superseded"],
+      "description": "Current status of the document"
+    },
+    "phase": {
+      "type": "string",
+      "const": "baseline",
+      "description": "Phase must be baseline for this document type"
+    },
+    "provider": {
+      "type": "string",
+      "enum": ["aws", "azure", "gcp"],
+      "not": {
+        "const": "tbd"
+      },
+      "description": "Cloud provider - cannot be TBD for validation"
+    },
+    "framework_name": {
+      "type": "string",
+      "not": {
+        "const": "TBD"
+      },
+      "description": "Framework name - cannot be TBD for validation"
+    },
+    "framework_version": {
+      "type": "string",
+      "not": {
+        "const": "TBD"
+      },
+      "description": "Framework version or review date - cannot be TBD for validation"
+    },
+    "owner": {
+      "type": "string",
+      "not": {
+        "const": "TBD"
+      },
+      "description": "Document owner - cannot be TBD for validation"
+    },
+    "review_cadence": {
+      "type": "string",
+      "not": {
+        "const": "TBD"
+      },
+      "description": "Review cadence - cannot be TBD for validation"
+    },
+    "last_reviewed": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Last review date in YYYY-MM-DD format"
+    },
+    "next_review_due": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Next review due date in YYYY-MM-DD format"
+    },
+    "related_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "List of related documents"
+    },
+    "evidence_log": {
+      "type": "string",
+      "description": "Path to evidence log file"
+    }
+  },
+  "required": [
+    "doc_id",
+    "doc_type", 
+    "status",
+    "phase",
+    "provider",
+    "framework_name",
+    "framework_version",
+    "owner",
+    "review_cadence",
+    "last_reviewed",
+    "next_review_due",
+    "related_docs",
+    "evidence_log"
+  ],
+  "additionalProperties": false
+}

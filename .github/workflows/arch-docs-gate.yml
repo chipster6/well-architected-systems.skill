@@ -1,0 +1,35 @@
+name: Architecture Docs Gate
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  arch-docs-gate:
+    runs-on: ubuntu-latest
+    name: Architecture Documentation Validation
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Run architecture documentation validation
+      run: |
+        python custom_skills/arch-docs/scripts/validate_docs.py
+        
+    - name: Upload validation results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: arch-docs-results
+        path: |
+          docs/architecture/
+          custom_skills/arch-docs/resources/
+        retention-days: 30
