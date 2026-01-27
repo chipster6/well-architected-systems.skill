@@ -1,0 +1,10 @@
+version: 1
+controls:
+  - id: "SECCTRL-0001"
+    title: "Least privilege access"
+    objective: "Ensure identities only have permissions required for their role."
+    scope: "system"
+    implementation_notes: "Define roles and access boundaries; perform periodic access reviews; use scoped credentials for automation."
+    verification: "Evidence of role definitions + review cadence; policy-as-code checks where applicable."
+    owner_role: "security"
+    status: "active"

@@ -1,0 +1,8 @@
+version: 1
+services:
+  - id: "SERVICE-0001"
+    name: "core-api"
+    type: "service"
+    description: "Primary API boundary for the system."
+    owner_role: "engineering"
+    status: "active"

@@ -1,0 +1,11 @@
+version: 1
+slos:
+  - id: "SLO-0001"
+    service_id: "SERVICE-0001"
+    name: "API availability"
+    sli: "successful_requests / total_requests"
+    target: "99.9%"
+    window: "30d"
+    measurement: "server-side metrics"
+    owner_role: "sre"
+    status: "active"

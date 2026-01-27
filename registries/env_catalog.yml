@@ -1,0 +1,10 @@
+version: 1
+environments:
+  - id: "ENV-0001"
+    name: "dev"
+    purpose: "Development environment"
+    status: "active"
+  - id: "ENV-0002"
+    name: "prod"
+    purpose: "Production environment"
+    status: "active"

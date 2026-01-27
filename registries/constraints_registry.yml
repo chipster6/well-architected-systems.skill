@@ -1,0 +1,10 @@
+version: 1
+constraints:
+  - id: "CONSTRAINT-0001"
+    title: "Baseline-first governance"
+    statement: "Downstream skills must not proceed unless the baseline gate passes."
+    scope: "repo"
+    rationale: "Enforces deterministic, auditable architecture work across all skills."
+    source_ref: "docs/baseline/BASELINE_HANDOFF.md"
+    owner_role: "architecture"
+    status: "active"
