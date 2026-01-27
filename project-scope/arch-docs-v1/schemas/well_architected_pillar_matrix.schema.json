@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Well-Architected Pillar Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pillars"
+  ],
+  "properties": {
+    "pillars": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["pillar", "decisions", "services_or_patterns", "risks", "mitigations", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "pillar": {
+            "type": "string",
+            "enum": [
+              "Operational Excellence",
+              "Security",
+              "Reliability",
+              "Performance Efficiency",
+              "Cost Optimization",
+              "Sustainability"
+            ]
+          },
+          "decisions": { "type": "string" },
+          "services_or_patterns": { "type": "string" },
+          "risks": { "type": "string" },
+          "mitigations": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    }
+  }
+}

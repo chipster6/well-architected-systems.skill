@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MCP Evidence Log",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_id",
+    "source",
+    "tool_used",
+    "query",
+    "result_summary",
+    "doc_link_or_identifier",
+    "how_it_changes_the_doc",
+    "timestamp_iso"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^MCP-\\d{8}-\\d{4}$",
+      "description": "Unique evidence ID formatted MCP-YYYYMMDD-NNNN"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "aws-docs",
+        "context7",
+        "terraform-awslabs",
+        "terraform-hashicorp",
+        "cdk"
+      ]
+    },
+    "tool_used": { "type": "string" },
+    "query": { "type": "string" },
+    "result_summary": { "type": "string" },
+    "doc_link_or_identifier": { "type": "string" },
+    "how_it_changes_the_doc": { "type": "string" },
+    "timestamp_iso": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

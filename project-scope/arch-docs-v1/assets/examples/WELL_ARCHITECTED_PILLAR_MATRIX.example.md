@@ -1,0 +1,8 @@
+| Pillar | Decisions | Services/Patterns | Risks | Mitigations | Evidence |
+|--------|-----------|-------------------|-------|-------------|----------|
+| Operational Excellence | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0001 |
+| Security | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0002 |
+| Reliability | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0003 |
+| Performance Efficiency | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0004 |
+| Cost Optimization | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0005 |
+| Sustainability | TOKEN_DECISION | TOKEN_PATTERN | TOKEN_RISK | TOKEN_MITIGATION | MCP-20260124-0006 |

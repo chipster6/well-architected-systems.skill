@@ -1,0 +1,29 @@
+{
+  "claims": [
+    {
+      "id": "claim-001",
+      "class": "source-backed",
+      "statement": "S3 Standard storage provides 99.999999999% durability and is appropriate for CloudRail tenant data storage.",
+      "evidence_ids": [
+        "MCP-20260124-0001",
+        "MCP-20260124-0002"
+      ]
+    },
+    {
+      "id": "claim-002", 
+      "class": "decision",
+      "statement": "CloudRail uses DynamoDB for session state management due to low-latency requirements.",
+      "adr_ids": [
+        "ADR-0003",
+        "ADR-0007"
+      ]
+    },
+    {
+      "id": "claim-003",
+      "class": "assumption",
+      "statement": "Peak tenant load will not exceed 10,000 concurrent requests per region during initial rollout.",
+      "evidence_ids": [],
+      "adr_ids": []
+    }
+  ]
+}

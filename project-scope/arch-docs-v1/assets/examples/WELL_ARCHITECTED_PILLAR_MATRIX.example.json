@@ -1,0 +1,10 @@
+{
+  "pillars": [
+    {"pillar": "Operational Excellence", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0001"},
+    {"pillar": "Security", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0002"},
+    {"pillar": "Reliability", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0003"},
+    {"pillar": "Performance Efficiency", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0004"},
+    {"pillar": "Cost Optimization", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0005"},
+    {"pillar": "Sustainability", "decisions": "TOKEN_DECISION", "services_or_patterns": "TOKEN_PATTERN", "risks": "TOKEN_RISK", "mitigations": "TOKEN_MITIGATION", "evidence": "MCP-20260124-0006"}
+  ]
+}

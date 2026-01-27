@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase Completion Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "phase",
+    "date",
+    "doc",
+    "completed",
+    "blockers",
+    "acceptance_checklist",
+    "mcp_evidence_ids",
+    "pillar_matrix_deltas"
+  ],
+  "properties": {
+    "phase": {
+      "type": "string",
+      "pattern": "^P[0-6]$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "doc": { "type": "string" },
+    "completed": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "acceptance_checklist": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "mcp_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^MCP-\\d{8}-\\d{4}$"
+      }
+    },
+    "pillar_matrix_deltas": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

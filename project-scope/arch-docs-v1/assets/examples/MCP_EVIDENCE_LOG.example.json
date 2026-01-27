@@ -1,0 +1,10 @@
+{
+  "evidence_id": "MCP-20260124-0001",
+  "source": "aws-docs",
+  "tool_used": "search_documentation",
+  "query": "step functions quota",
+  "result_summary": "Validated Step Functions state transition quota; see AWS docs",
+  "doc_link_or_identifier": "https://docs.aws.amazon.com/step-functions/latest/dg/limits.html",
+  "how_it_changes_the_doc": "Supports throughput claim in ARC-123 section 6",
+  "timestamp_iso": "2026-01-24T00:00:00Z"
+}
