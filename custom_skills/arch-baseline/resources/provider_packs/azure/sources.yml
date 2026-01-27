@@ -1,0 +1,20 @@
+sources:
+  - source_id: azure_waf_overview
+    url: "https://learn.microsoft.com/en-us/azure/well-architected/what-is-well-architected-framework"
+    topic: well_architected_overview
+  - source_id: azure_waf_pillars
+    url: "https://learn.microsoft.com/en-us/azure/well-architected/pillars"
+    topic: well_architected_pillars
+  - source_id: azure_ai_foundry_agents_overview
+    url: "https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview"
+    topic: ai_agents
+  - source_id: azure_ml_docs
+    url: "https://learn.microsoft.com/en-us/azure/machine-learning/"
+    topic: machine_learning
+  - source_id: azure_synapse_overview
+    url: "https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is"
+    topic: data_analytics
+  - source_id: azure_openai_assistant_functions
+    url: "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/assistant-functions"
+    topic: genai_tooling
+

@@ -1,0 +1,11 @@
+provider: azure
+version: "v1"
+reviewed_at: "2026-01-27"
+recency_days: 90
+pillar_ids:
+  - reliability
+  - security
+  - cost_optimization
+  - operational_excellence
+  - performance_efficiency
+

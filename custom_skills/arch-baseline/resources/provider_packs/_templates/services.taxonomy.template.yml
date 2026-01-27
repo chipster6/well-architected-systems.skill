@@ -1,0 +1,61 @@
+version: "v1"
+categories:
+  compute:
+    display_name: Compute
+  storage:
+    display_name: Storage
+  networking:
+    display_name: Networking
+  identity:
+    display_name: Identity
+  security:
+    display_name: Security
+  observability:
+    display_name: Observability
+  governance_management:
+    display_name: Governance & Management
+  devtools_cicd:
+    display_name: DevTools & CI/CD
+  integration_messaging:
+    display_name: Integration & Messaging
+  data_analytics:
+    display_name: Data & Analytics
+    subcategories:
+      - batch_etl
+      - stream_processing
+      - query_engine
+      - data_warehouse
+      - lakehouse
+      - bi_visualization
+      - data_catalog_governance
+  machine_learning:
+    display_name: Machine Learning
+    subcategories:
+      - training
+      - inference_hosting
+      - feature_store
+      - mlops_pipelines
+      - model_registry
+      - data_labeling
+      - ml_monitoring
+  genai:
+    display_name: Generative AI
+    subcategories:
+      - foundation_models
+      - prompt_orchestration
+      - rag_tooling
+      - vector_store
+      - model_customization
+      - safety_guardrails
+      - evals_observability
+  ai_agents:
+    display_name: AI Agents
+    subcategories:
+      - agent_runtime
+      - tool_connectors
+      - function_calling
+      - knowledge_connectors
+      - workflow_orchestration
+      - agent_observability
+      - policy_governance
+

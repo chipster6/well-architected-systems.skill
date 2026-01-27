@@ -1,0 +1,12 @@
+provider: aws
+version: "v1"
+reviewed_at: "2026-01-27"
+recency_days: 90
+pillar_ids:
+  - operational_excellence
+  - security
+  - reliability
+  - performance_efficiency
+  - cost_optimization
+  - sustainability
+

@@ -1,0 +1,16 @@
+version: 1
+provider: gcp
+evidence_expectations:
+  - id: GCP-EVD-SPC-001
+    pillar_id: SECURITY_PRIVACY_COMPLIANCE
+    expectation: "Access controls and auditability are defined and verifiable."
+    evidence_types:
+      - "iam-policy-sample"
+      - "audit-log-sample"
+  - id: GCP-EVD-REL-001
+    pillar_id: RELIABILITY
+    expectation: "Reliability posture is documented and tested for critical workloads."
+    evidence_types:
+      - "backup-restore-test"
+      - "failover-test"
+

@@ -1,0 +1,149 @@
+version: "v1"
+services:
+  - service_id: ec2
+    display_name: "Amazon EC2"
+    category: compute
+    short_description: "Virtual machines for running compute workloads on-demand with flexible instance types."
+    key_capabilities:
+      - "virtual machines"
+    common_use_cases:
+      - "host stateless services"
+    pricing_model_hint: "instance-hours and resource-based"
+    references:
+      - "aws:ec2"
+  - service_id: s3
+    display_name: "Amazon S3"
+    category: storage
+    short_description: "Object storage for unstructured data with durability, lifecycle, and access control features."
+    key_capabilities:
+      - "object storage"
+    common_use_cases:
+      - "store artifacts and datasets"
+    pricing_model_hint: "storage and requests"
+    references:
+      - "aws:s3"
+  - service_id: vpc
+    display_name: "Amazon VPC"
+    category: networking
+    short_description: "Virtual network isolation primitives including subnets, routing, and security boundaries."
+    key_capabilities:
+      - "network segmentation"
+    common_use_cases:
+      - "isolate workloads by environment"
+    pricing_model_hint: "varies by attached services"
+    references:
+      - "aws:vpc"
+  - service_id: iam
+    display_name: "AWS IAM"
+    category: identity
+    short_description: "Identity and access management for users, roles, and policies to control access to resources."
+    key_capabilities:
+      - "role-based access control"
+    common_use_cases:
+      - "least-privilege permissions"
+    pricing_model_hint: "no direct charge"
+    references:
+      - "aws:iam"
+  - service_id: kms
+    display_name: "AWS KMS"
+    category: security
+    short_description: "Managed key service to create and control cryptographic keys for encryption use cases."
+    key_capabilities:
+      - "key management"
+    common_use_cases:
+      - "encrypt data at rest"
+    pricing_model_hint: "per key and API calls"
+    references:
+      - "aws:kms"
+  - service_id: cloudwatch
+    display_name: "Amazon CloudWatch"
+    category: observability
+    short_description: "Metrics, logs, and alarms for monitoring systems and triggering operational actions."
+    key_capabilities:
+      - "metrics and logs"
+    common_use_cases:
+      - "monitor service health"
+    pricing_model_hint: "ingestion, storage, and queries"
+    references:
+      - "aws:cloudwatch"
+  - service_id: organizations
+    display_name: "AWS Organizations"
+    category: governance_management
+    short_description: "Multi-account governance with organization units, consolidated billing, and policy controls."
+    key_capabilities:
+      - "account governance"
+    common_use_cases:
+      - "apply org-wide policies"
+    pricing_model_hint: "no direct charge"
+    references:
+      - "aws:organizations"
+  - service_id: codepipeline
+    display_name: "AWS CodePipeline"
+    category: devtools_cicd
+    short_description: "CI/CD orchestration service for building and deploying pipelines across environments."
+    key_capabilities:
+      - "pipeline orchestration"
+    common_use_cases:
+      - "deploy infrastructure and apps"
+    pricing_model_hint: "per pipeline (provider-dependent)"
+    references:
+      - "aws:codepipeline"
+  - service_id: sns
+    display_name: "Amazon SNS"
+    category: integration_messaging
+    short_description: "Pub/sub messaging service for fanout and event notifications to multiple subscribers."
+    key_capabilities:
+      - "pub/sub messaging"
+    common_use_cases:
+      - "event notifications"
+    pricing_model_hint: "requests and delivery"
+    references:
+      - "aws:sns"
+  - service_id: athena
+    display_name: "Amazon Athena"
+    category: data_analytics
+    subcategory: query_engine
+    short_description: "Serverless interactive query service that analyzes data directly in object storage."
+    key_capabilities:
+      - "sql query engine"
+    common_use_cases:
+      - "ad hoc analytics"
+    pricing_model_hint: "per TB scanned"
+    references:
+      - "aws:athena"
+  - service_id: sagemaker
+    display_name: "Amazon SageMaker"
+    category: machine_learning
+    short_description: "Managed machine learning platform for training, deploying, and operating ML models."
+    key_capabilities:
+      - "training and inference"
+    common_use_cases:
+      - "host ML inference endpoints"
+    pricing_model_hint: "compute, storage, and requests"
+    references:
+      - "aws:sagemaker"
+  - service_id: bedrock
+    display_name: "Amazon Bedrock"
+    category: genai
+    subcategory: foundation_models
+    short_description: "Managed generative AI platform for accessing foundation models and building GenAI applications."
+    key_capabilities:
+      - "foundation model access"
+    common_use_cases:
+      - "build GenAI features"
+    pricing_model_hint: "tokens and requests"
+    references:
+      - "aws:bedrock"
+  - service_id: bedrock-agents
+    display_name: "Agents for Amazon Bedrock"
+    category: ai_agents
+    subcategory: agent_runtime
+    short_description: "Agent capability in Bedrock for tool-using workflows and orchestration with knowledge sources."
+    key_capabilities:
+      - "agent runtime"
+    common_use_cases:
+      - "tool-using assistants"
+    pricing_model_hint: "requests and usage-based"
+    references:
+      - "aws:bedrock-agents"
+

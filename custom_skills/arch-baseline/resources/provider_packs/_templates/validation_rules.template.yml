@@ -1,0 +1,9 @@
+rules:
+  required_baseline_artifacts: []
+  required_registry_fields: []
+  required_crosslinks: []
+  toolchain_overlays:
+    kubernetes: false
+    terraform: false
+    cdk: false
+

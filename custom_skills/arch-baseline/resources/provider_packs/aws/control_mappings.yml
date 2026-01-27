@@ -1,0 +1,16 @@
+version: 1
+provider: aws
+evidence_expectations:
+  - id: AWS-EVD-LOGGING-001
+    pillar_id: SECURITY
+    expectation: "Audit-relevant actions are logged and retained according to policy."
+    evidence_types:
+      - "log-retention-config"
+      - "access-trail-sample"
+  - id: AWS-EVD-RESILIENCE-001
+    pillar_id: RELIABILITY
+    expectation: "Backup/restore and failure-mode testing evidence exists for critical data paths."
+    evidence_types:
+      - "backup-restore-test"
+      - "failover-test"
+

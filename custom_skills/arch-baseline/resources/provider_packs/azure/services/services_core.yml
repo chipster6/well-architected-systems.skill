@@ -1,0 +1,149 @@
+version: "v1"
+services:
+  - service_id: virtual-machines
+    display_name: "Azure Virtual Machines"
+    category: compute
+    short_description: "Virtual machines for running compute workloads with configurable sizes and images."
+    key_capabilities:
+      - "virtual machines"
+    common_use_cases:
+      - "host stateless services"
+    pricing_model_hint: "per VM size and runtime"
+    references:
+      - "azure:virtual-machines"
+  - service_id: blob-storage
+    display_name: "Azure Blob Storage"
+    category: storage
+    short_description: "Object storage for unstructured data with access control, lifecycle, and tiering."
+    key_capabilities:
+      - "object storage"
+    common_use_cases:
+      - "store artifacts and datasets"
+    pricing_model_hint: "storage and transactions"
+    references:
+      - "azure:blob-storage"
+  - service_id: virtual-network
+    display_name: "Azure Virtual Network"
+    category: networking
+    short_description: "Virtual network isolation primitives including subnets, routing, and network security controls."
+    key_capabilities:
+      - "network segmentation"
+    common_use_cases:
+      - "isolate workloads by environment"
+    pricing_model_hint: "varies by attached services"
+    references:
+      - "azure:virtual-network"
+  - service_id: entra-id
+    display_name: "Microsoft Entra ID"
+    category: identity
+    short_description: "Identity platform for authentication and access management across applications and resources."
+    key_capabilities:
+      - "identity and access management"
+    common_use_cases:
+      - "single sign-on and access reviews"
+    pricing_model_hint: "tiered licensing"
+    references:
+      - "azure:entra-id"
+  - service_id: key-vault
+    display_name: "Azure Key Vault"
+    category: security
+    short_description: "Managed secrets and key management service for storing keys, secrets, and certificates."
+    key_capabilities:
+      - "key and secret management"
+    common_use_cases:
+      - "protect secrets and encryption keys"
+    pricing_model_hint: "operations and premium features"
+    references:
+      - "azure:key-vault"
+  - service_id: azure-monitor
+    display_name: "Azure Monitor"
+    category: observability
+    short_description: "Monitoring platform for metrics, logs, and alerts across Azure resources and workloads."
+    key_capabilities:
+      - "metrics and logs"
+    common_use_cases:
+      - "monitor service health"
+    pricing_model_hint: "ingestion, retention, queries"
+    references:
+      - "azure:monitor"
+  - service_id: azure-policy
+    display_name: "Azure Policy"
+    category: governance_management
+    short_description: "Policy-as-code for enforcing organizational standards and assessing compliance."
+    key_capabilities:
+      - "policy enforcement"
+    common_use_cases:
+      - "prevent non-compliant deployments"
+    pricing_model_hint: "included (service-dependent)"
+    references:
+      - "azure:policy"
+  - service_id: azure-devops
+    display_name: "Azure DevOps"
+    category: devtools_cicd
+    short_description: "DevOps suite for repos, pipelines, boards, and artifact management."
+    key_capabilities:
+      - "CI/CD pipelines"
+    common_use_cases:
+      - "build and deploy applications"
+    pricing_model_hint: "per-user and pipeline minutes"
+    references:
+      - "azure:devops"
+  - service_id: service-bus
+    display_name: "Azure Service Bus"
+    category: integration_messaging
+    short_description: "Enterprise messaging service supporting queues and pub/sub topics for decoupling systems."
+    key_capabilities:
+      - "messaging queues and topics"
+    common_use_cases:
+      - "asynchronous integration"
+    pricing_model_hint: "tiered messaging units"
+    references:
+      - "azure:service-bus"
+  - service_id: synapse-analytics
+    display_name: "Azure Synapse Analytics"
+    category: data_analytics
+    subcategory: data_warehouse
+    short_description: "Analytics service combining data integration, warehousing, and big data analytics."
+    key_capabilities:
+      - "analytics workspace"
+    common_use_cases:
+      - "data warehousing and analytics"
+    pricing_model_hint: "compute and storage"
+    references:
+      - "azure:synapse"
+  - service_id: azure-machine-learning
+    display_name: "Azure Machine Learning"
+    category: machine_learning
+    short_description: "Machine learning platform for training, deploying, and operating ML models."
+    key_capabilities:
+      - "training and inference"
+    common_use_cases:
+      - "host ML inference endpoints"
+    pricing_model_hint: "compute and storage"
+    references:
+      - "azure:machine-learning"
+  - service_id: azure-openai
+    display_name: "Azure OpenAI"
+    category: genai
+    subcategory: foundation_models
+    short_description: "Managed access to generative AI models and capabilities for building GenAI applications."
+    key_capabilities:
+      - "model inference APIs"
+    common_use_cases:
+      - "integrate LLM features"
+    pricing_model_hint: "tokens and throughput"
+    references:
+      - "azure:openai"
+  - service_id: ai-foundry-agent-service
+    display_name: "Foundry Agent Service"
+    category: ai_agents
+    subcategory: agent_runtime
+    short_description: "Agent service for building tool-using agents with orchestration and governance features."
+    key_capabilities:
+      - "agent runtime"
+    common_use_cases:
+      - "tool-using assistants"
+    pricing_model_hint: "usage-based (service-dependent)"
+    references:
+      - "azure:ai-foundry-agents"
+

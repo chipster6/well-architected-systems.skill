@@ -1,0 +1,16 @@
+version: 1
+provider: gcp
+required_doc_families:
+  - id: ARCH_OVERVIEW
+    path: docs/architecture/ARC_OVERVIEW.md
+  - id: SERVICE_CATALOG
+    path: docs/architecture/SERVICE_CATALOG.md
+  - id: SECURITY_ARCHITECTURE
+    path: docs/architecture/SECURITY_ARCHITECTURE.md
+  - id: THREAT_MODEL
+    path: docs/architecture/THREAT_MODEL.md
+  - id: OPERATIONS_MODEL
+    path: docs/architecture/OPERATIONS_MODEL.md
+  - id: PILLAR_MATRIX
+    path: docs/architecture/WELL_ARCHITECTED_PILLAR_MATRIX.md
+

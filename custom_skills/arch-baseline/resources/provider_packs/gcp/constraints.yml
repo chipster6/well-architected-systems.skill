@@ -1,0 +1,17 @@
+constraints:
+  env_taxonomy:
+    - dev
+    - stage
+    - prod
+  naming:
+    resource_name_pattern: "{app}-{env}-{component}-{purpose}"
+    labels_required:
+      - owner
+      - cost_center
+      - data_classification
+  regions:
+    allowed: []
+    disallowed: []
+  structure:
+    org_folder_project_model: org_folder_project_recommended
+

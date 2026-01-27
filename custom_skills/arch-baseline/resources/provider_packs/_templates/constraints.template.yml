@@ -1,0 +1,13 @@
+constraints:
+  env_taxonomy:
+    - dev
+    - stage
+    - prod
+  naming:
+    resource_name_pattern: "{app}-{env}-{component}-{purpose}"
+  regions:
+    allowed: []
+    disallowed: []
+  structure:
+    account_subscription_project_model: "provider-specific"
+

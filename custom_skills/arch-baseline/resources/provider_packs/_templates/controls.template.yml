@@ -1,0 +1,12 @@
+controls:
+  - control_id: CTRL-IDENTITY-001
+    category: identity_access
+    provider_reference: provider-native-iam
+    required_for:
+      - all_workloads
+    evidence_required:
+      - iam_policy_snapshot
+    normalization_target:
+      registry: registries/security_controls_catalog.yml
+      field: controls[].provider_reference
+

@@ -1,0 +1,14 @@
+version: "v1"
+services:
+  - service_id: "provider.compute.example"
+    display_name: "Example Compute"
+    category: compute
+    short_description: "Example compute service used as a template for v1 core catalogs."
+    key_capabilities:
+      - "run workloads"
+    common_use_cases:
+      - "host stateless services"
+    pricing_model_hint: "usage-based"
+    references:
+      - "docs:provider.compute.example"
+

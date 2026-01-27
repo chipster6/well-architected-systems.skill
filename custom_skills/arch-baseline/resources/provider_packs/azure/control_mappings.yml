@@ -1,0 +1,16 @@
+version: 1
+provider: azure
+evidence_expectations:
+  - id: AZ-EVD-SEC-001
+    pillar_id: SECURITY
+    expectation: "Access controls are defined, reviewed, and auditable."
+    evidence_types:
+      - "role-definitions"
+      - "audit-log-sample"
+  - id: AZ-EVD-REL-001
+    pillar_id: RELIABILITY
+    expectation: "Resilience strategy is documented and verified for critical workloads."
+    evidence_types:
+      - "backup-restore-test"
+      - "failover-test"
+

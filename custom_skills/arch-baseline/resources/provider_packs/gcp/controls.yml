@@ -1,0 +1,22 @@
+controls:
+  - control_id: CTRL-IDENTITY-001
+    category: identity_access
+    provider_reference: cloud_iam
+    required_for:
+      - all_workloads
+    evidence_required:
+      - access_review
+    normalization_target:
+      registry: registries/security_controls_catalog.yml
+      field: controls[].provider_reference
+  - control_id: CTRL-LOGGING-001
+    category: logging_audit
+    provider_reference: cloud_logging_audit_logs
+    required_for:
+      - all_workloads
+    evidence_required:
+      - audit_log_configuration
+    normalization_target:
+      registry: registries/security_controls_catalog.yml
+      field: controls[].evidence_required
+

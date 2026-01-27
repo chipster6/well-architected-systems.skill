@@ -1,0 +1,17 @@
+sources:
+  - source_id: gcp_arch_framework
+    url: "https://docs.cloud.google.com/architecture/framework"
+    topic: well_architected_framework
+  - source_id: gcp_agent_builder_docs
+    url: "https://docs.cloud.google.com/agent-builder"
+    topic: ai_agents
+  - source_id: gcp_agent_builder_overview
+    url: "https://docs.cloud.google.com/agent-builder/overview"
+    topic: ai_agents_overview
+  - source_id: gcp_vertex_ai_docs
+    url: "https://docs.cloud.google.com/vertex-ai/docs"
+    topic: machine_learning_and_genai
+  - source_id: gcp_bigquery_docs
+    url: "https://docs.cloud.google.com/bigquery/docs"
+    topic: data_analytics
+

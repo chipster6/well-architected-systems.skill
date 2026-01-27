@@ -1,0 +1,14 @@
+pillars:
+  - pillar_id: operational_excellence
+    display_name: Operational Excellence
+    required_evidence_types:
+      - runbook
+      - change_management_policy
+      - incident_postmortem
+  - pillar_id: security
+    display_name: Security
+    required_evidence_types:
+      - threat_model
+      - iam_policy_snapshot
+      - encryption_configuration
+

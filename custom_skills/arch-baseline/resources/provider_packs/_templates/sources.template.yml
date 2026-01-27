@@ -1,0 +1,5 @@
+sources:
+  - source_id: provider_framework_landing
+    url: "https://example.invalid"
+    topic: "framework_overview"
+

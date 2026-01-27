@@ -1,0 +1,11 @@
+provider: gcp
+version: "v1"
+reviewed_at: "2026-01-27"
+recency_days: 90
+pillar_ids:
+  - operational_excellence
+  - security_privacy_compliance
+  - reliability
+  - cost_optimization
+  - performance_optimization
+

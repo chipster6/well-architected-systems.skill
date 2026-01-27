@@ -1,0 +1,35 @@
+pillars:
+  - pillar_id: operational_excellence
+    display_name: Operational Excellence
+    required_evidence_types:
+      - runbook
+      - incident_postmortem
+      - change_management_policy
+  - pillar_id: security
+    display_name: Security
+    required_evidence_types:
+      - threat_model
+      - iam_policy_snapshot
+      - encryption_configuration
+  - pillar_id: reliability
+    display_name: Reliability
+    required_evidence_types:
+      - slo
+      - backup_restore_test
+      - chaos_game_day
+  - pillar_id: performance_efficiency
+    display_name: Performance Efficiency
+    required_evidence_types:
+      - load_test
+      - autoscaling_configuration
+  - pillar_id: cost_optimization
+    display_name: Cost Optimization
+    required_evidence_types:
+      - cost_report
+      - tagging_compliance_report
+  - pillar_id: sustainability
+    display_name: Sustainability
+    required_evidence_types:
+      - workload_efficiency_review
+      - region_selection_rationale
+

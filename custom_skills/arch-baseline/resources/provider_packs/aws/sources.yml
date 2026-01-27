@@ -1,0 +1,17 @@
+sources:
+  - source_id: aws_wa_pillars
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html"
+    topic: well_architected_pillars
+  - source_id: aws_wa_sustainability_pillar
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html"
+    topic: well_architected_sustainability
+  - source_id: aws_bedrock_docs_overview
+    url: "https://aws.amazon.com/documentation-overview/bedrock/"
+    topic: genai_platform
+  - source_id: aws_bedrock_agents_overview
+    url: "https://aws.amazon.com/bedrock/agents/"
+    topic: ai_agents
+  - source_id: aws_sagemaker_docs_overview
+    url: "https://aws.amazon.com/documentation-overview/sagemaker/"
+    topic: machine_learning
+

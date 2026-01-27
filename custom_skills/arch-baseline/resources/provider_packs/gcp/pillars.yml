@@ -1,0 +1,27 @@
+pillars:
+  - pillar_id: operational_excellence
+    display_name: Operational Excellence
+    required_evidence_types:
+      - runbook
+      - incident_postmortem
+  - pillar_id: security_privacy_compliance
+    display_name: Security, Privacy, and Compliance
+    required_evidence_types:
+      - threat_model
+      - access_review
+      - encryption_configuration
+  - pillar_id: reliability
+    display_name: Reliability
+    required_evidence_types:
+      - slo
+      - backup_restore_test
+  - pillar_id: cost_optimization
+    display_name: Cost Optimization
+    required_evidence_types:
+      - cost_report
+  - pillar_id: performance_optimization
+    display_name: Performance Optimization
+    required_evidence_types:
+      - load_test
+      - autoscale_configuration
+
