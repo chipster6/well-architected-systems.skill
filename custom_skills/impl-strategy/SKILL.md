@@ -1,7 +1,20 @@
+---
+name: impl-strategy
+version: "1.0"
+description: >
+  Use when you need to turn baseline + architecture docs into an executable implementation strategy: phased plan, dependency DAG (TASK_DAG.json), task catalog, and optional worktree/parallelization plan.
+  Triggers: "implementation strategy", "implementation plan", "delivery roadmap", "workstream plan", "task DAG", "dependency graph", "phase plan", "milestones", "worktree plan", "impl gate", "validate_task_graph.py".
+  Requires baseline gate PASS and docs/implementation/; fails closed if required policy inputs are missing.
+---
+
 # Impl-Strategy Skill
 
 ## Purpose
 Provides implementation strategy and task graph validation for system development. This skill depends on both baseline gate passing and architecture documentation being in place.
+
+## References (progressive disclosure)
+- `references/executive-summary.md`
+- `references/IMPL_STRATEGY_PHASES.md`
 
 ## Core Functionality
 - **Implementation Strategy**: Generate and validate implementation plans and task graphs

@@ -1,7 +1,20 @@
+---
+name: arch-docs
+version: "1.0"
+description: >
+  Use when you need to generate, expand, or validate architecture documentation (C4, service catalog/specs, security architecture, threat model, operations model, contracts) from an established baseline.
+  Triggers: "arch docs", "architecture docs", "C4 component", "service catalog", "service spec", "threat model", "security architecture", "operations model", "runbook", "contract spec", "Well-Architected mapping", "arch-docs gate", "validate_docs.py".
+  Requires baseline gate PASS and fails closed if required policy inputs or docs/architecture/ are missing.
+---
+
 # Arch-Docs Skill
 
 ## Purpose
 Provides architecture documentation generation and validation capabilities. This skill depends on the baseline gate passing and enforces documentation-first methodology for system architecture work.
+
+## References (progressive disclosure)
+- `references/executive-summary.md`
+- `references/ARCH_DOCS_PHASES.md`
 
 ## Core Functionality
 - **Architecture Documentation**: Generate and validate system architecture documents
