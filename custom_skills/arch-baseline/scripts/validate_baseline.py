@@ -4,19 +4,46 @@ Baseline Gate Validation Wrapper
 Validates that all required baseline output files exist and pass validation.
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
 
 
-def check_file_exists(file_path, description):
-    """Check if a required file exists."""
-    if Path(file_path).exists():
-        print(f"✓ {description} exists: {file_path}")
-        return True
-    else:
-        print(f"✗ {description} missing: {file_path}")
+def check_path_exists(path: Path, description: str, expected_type: str | None = None):
+    """Check if a required file/directory exists."""
+    if not path.exists():
+        print(f"✗ {description} missing: {path}")
         return False
+    if expected_type == "directory" and not path.is_dir():
+        print(f"✗ {description} is not a directory: {path}")
+        return False
+    if expected_type != "directory" and path.is_dir():
+        print(f"✗ {description} is a directory, expected file: {path}")
+        return False
+    print(f"✓ {description} exists: {path}")
+    return True
+
+
+def is_effectively_empty_file(path: Path) -> bool:
+    """Treat whitespace/comment-only or YAML empty values as empty."""
+    try:
+        content = path.read_text(encoding="utf-8")
+    except Exception:
+        return True
+
+    meaningful: list[str] = []
+    for line in content.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or stripped == "---":
+            continue
+        meaningful.append(stripped)
+
+    if not meaningful:
+        return True
+    if len(meaningful) == 1 and meaningful[0] in ("[]", "{}", "null", "~"):
+        return True
+    return False
 
 
 def run_well_architected_validation():
@@ -76,56 +103,52 @@ def load_manifest(manifest_path: Path) -> dict | None:
         return None
 
 
-def check_manifest_dependencies(manifest: dict) -> bool:
+def check_manifest_dependencies(manifest: dict, fail_empty_registries: bool) -> bool:
     ok = True
-    baseline_index = manifest.get("paths", {}).get("baseline_docs_dir", "docs/baseline")
-    # Explicit files to check
-    required_files = [
-        ("docs/baseline/SYSTEM_CHARTER.md", "System Charter"),
-        ("docs/baseline/C4_Context.md", "C4 Context Diagram"),
-        ("docs/baseline/C4_Container.md", "C4 Container Diagram"),
-        ("docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md", "Cloud Provider Decision ADR"),
-        ("docs/baseline/BASELINE_INDEX.md", "Baseline Index"),
-        ("docs/baseline/BASELINE_HANDOFF.md", "Baseline Handoff"),
-    ]
-
-    paths_section = manifest.get("paths", {})
-    audit_files = [
-        (
-            paths_section.get(
-                "evidence_log_jsonl", "docs/audit/evidence/evidence_log.jsonl"
-            ),
-            "Evidence log (jsonl)",
-        ),
-        (
-            paths_section.get(
-                "tool_call_audit_jsonl", "docs/audit/tool_calls/tool_call_audit.jsonl"
-            ),
-            "Tool-call audit log",
-        ),
-    ]
-
+    artifacts = manifest.get("artifacts", [])
     registries = manifest.get("registries", [])
 
-    print("\n1. Checking required baseline files...")
-    for file_path, description in required_files:
-        if not check_file_exists(file_path, description):
-            ok = False
-
-    print("\n2. Checking audit artifacts...")
-    for file_path, description in audit_files:
-        if not file_path:
+    print("\n1. Checking manifest artifacts (mandatory)...")
+    for artifact in artifacts:
+        if not artifact.get("mandatory"):
             continue
-        if not check_file_exists(file_path, description):
+        raw_path = artifact.get("path", "")
+        if not raw_path:
+            print(f"✗ Artifact {artifact.get('id', '')} missing path in manifest")
+            ok = False
+            continue
+        path = Path(raw_path)
+        expected_type = "directory" if artifact.get("type") == "directory" else None
+        if not check_path_exists(path, f"Artifact {artifact.get('id', '')}", expected_type):
             ok = False
 
-    print("\n3. Checking registries...")
+    print("\n2. Checking registries (mandatory)...")
     for registry in registries:
-        path = registry.get("path")
-        if not path:
+        if not registry.get("mandatory"):
             continue
-        if not check_file_exists(path, f"Registry {registry.get('id', '')}"):
+        raw_path = registry.get("path", "")
+        if not raw_path:
+            print(f"✗ Registry {registry.get('id', '')} missing path in manifest")
             ok = False
+            continue
+        path = Path(raw_path)
+        if not check_path_exists(path, f"Registry {registry.get('id', '')}"):
+            ok = False
+
+    if fail_empty_registries:
+        print("\n3. Checking registries (non-empty, mandatory)...")
+        for registry in registries:
+            if not registry.get("mandatory"):
+                continue
+            raw_path = registry.get("path", "")
+            if not raw_path:
+                continue
+            path = Path(raw_path)
+            if path.exists() and is_effectively_empty_file(path):
+                print(f"✗ Registry {registry.get('id', '')} is empty: {path}")
+                ok = False
+            elif path.exists():
+                print(f"✓ Registry {registry.get('id', '')} is non-empty: {path}")
 
     return ok
 
@@ -134,6 +157,14 @@ def main():
     """Main baseline gate validation."""
     print("=== BASELINE GATE VALIDATION ===")
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--allow-empty-registries",
+        action="store_true",
+        help="Do not fail the gate when mandatory registries are empty",
+    )
+    args = parser.parse_args()
+
     manifest_path = Path("docs/baseline/baseline_manifest.json")
     manifest = load_manifest(manifest_path)
     all_passed = True
@@ -141,7 +172,7 @@ def main():
     if manifest is None:
         all_passed = False
     else:
-        if not check_manifest_dependencies(manifest):
+        if not check_manifest_dependencies(manifest, not args.allow_empty_registries):
             all_passed = False
 
     print("\n4. Validating Well-Architected Adherence Plan...")
