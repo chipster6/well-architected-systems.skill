@@ -114,9 +114,12 @@ def validate_frontmatter(frontmatter):
         if field not in frontmatter:
             errors.append(f"Missing required field: {field}")
 
-    # Validate provider is not TBD
-    if frontmatter.get("provider") == "tbd":
-        errors.append("Provider cannot be 'tbd' - must be 'aws', 'azure', or 'gcp'")
+    # Validate provider
+    # This repository supports a template-mode adherence plan where the provider is not yet chosen.
+    # In template-mode, provider must be "unselected". Post-decision plans must be one of aws/azure/gcp.
+    valid_providers = ["aws", "azure", "gcp", "unselected"]
+    if frontmatter.get("provider") not in valid_providers:
+        errors.append(f"provider must be one of: {valid_providers}")
 
     # Validate no TBD values
     for key, value in frontmatter.items():
@@ -139,23 +142,44 @@ def validate_frontmatter(frontmatter):
     return errors
 
 
-def validate_required_headings(markdown_content):
+def validate_required_headings(markdown_content, provider: str):
     """Validate that required headings exist in the markdown content."""
     errors = []
 
-    required_headings = [
-        "# Well-Architected Adherence Plan",
-        "## 1. Purpose",
-        "## 2. Framework Selection",
-        "## 3. Definitions",
-        "## 4. Pillar-to-Documentation Mapping",
-        "## 5. Baseline Requirements",
-        "## 6. Review Procedure",
-        "## 7. Evidence and Audit Rules",
-        "## 8. Exception / Waiver Process",
-        "## 9. Acceptance Criteria",
-        "## 10. Change Log",
-    ]
+    # The adherence plan has two supported shapes:
+    # - Template-mode (provider = unselected): focuses on selection procedure and how provider mapping is materialized.
+    # - Post-decision (provider in aws/azure/gcp): focuses on explicit pillar mapping table for the selected provider.
+    if provider == "unselected":
+        required_headings = [
+            "# Well-Architected Adherence Plan",
+            "## 1. Purpose",
+            "## 2. Provider Selection Procedure",
+            "## 3. Provider Packs",
+            "## 4. Materializing Pillar Mapping Post-Decision",
+            "## 5. Baseline Requirements (Provider-Agnostic)",
+            "## 6. Review Procedure",
+            "## 7. Evidence and Audit Rules",
+            "## 8. Exception / Waiver Process",
+            "## 9. Acceptance Criteria",
+            "## 10. Change Log",
+        ]
+    else:
+        required_headings = [
+            "# Well-Architected Adherence Plan",
+            "## 1. Purpose",
+            "## 2. Framework Selection",
+            "## 3. Definitions",
+            "## 4. Pillar-to-Documentation Mapping",
+            "## 5. Baseline Requirements",
+            "## 6. Review Procedure",
+            "## 7. Evidence and Audit Rules",
+            "## 8. Exception / Waiver Process",
+            "## 9. Acceptance Criteria",
+            "## 10. Change Log",
+        ]
+        # Ensure template-mode-only sections are not accidentally present after provider selection.
+        if "## 2. Provider Selection Procedure" in markdown_content:
+            errors.append("Template-mode sections present but provider is selected (provider must be 'unselected' for template-mode)")
 
     for heading in required_headings:
         if heading not in markdown_content:
@@ -164,9 +188,14 @@ def validate_required_headings(markdown_content):
     return errors
 
 
-def validate_pillar_table(markdown_content):
+def validate_pillar_table(markdown_content, provider: str):
     """Validate that the pillar mapping table exists and has content."""
     errors = []
+
+    # Template-mode adherence plans do not include a pillar table; pillar mapping is materialized from provider packs
+    # after the provider decision.
+    if provider == "unselected":
+        return errors
 
     # Look for the pillar table in section 4
     section4_match = re.search(
@@ -227,9 +256,6 @@ def validate_no_placeholders(content):
         if re.search(pattern, full_content, re.IGNORECASE):
             matches = re.findall(pattern, full_content, re.IGNORECASE)
             for match in matches:
-                # Skip legitimate patterns like provider enums in description
-                if pattern == r"TBD" and "aws|azure|gcp|tbd" in full_content:
-                    continue
                 errors.append(f"Document contains placeholder: {match}")
 
     return errors
@@ -254,12 +280,16 @@ def main():
     frontmatter_errors = validate_frontmatter(frontmatter)
     all_errors.extend(frontmatter_errors)
 
+    provider = frontmatter.get("provider", "")
+    if not isinstance(provider, str):
+        provider = ""
+
     # Validate required headings
-    heading_errors = validate_required_headings(markdown_content)
+    heading_errors = validate_required_headings(markdown_content, provider)
     all_errors.extend(heading_errors)
 
     # Validate pillar table
-    pillar_errors = validate_pillar_table(markdown_content)
+    pillar_errors = validate_pillar_table(markdown_content, provider)
     all_errors.extend(pillar_errors)
 
     # Validate no placeholders

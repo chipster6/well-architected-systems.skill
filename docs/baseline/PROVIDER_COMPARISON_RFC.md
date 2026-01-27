@@ -1,7 +1,7 @@
 # RFC-001: Cloud Provider Comparison
 
 ## Status
-Superseded (see `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md`)
+Template (to be finalized per project and then superseded by the provider decision ADR)
 
 ## Context
 The system requires global availability, strong managed streaming + IoT/edge support, and a compliance posture aligned with organizational controls. Candidate providers considered:
@@ -30,7 +30,10 @@ The system requires global availability, strong managed streaming + IoT/edge sup
 - Risks: team readiness and IoT/edge integration fit; would require additional ramp-up.
 
 ## Recommendation
-Select AWS as the primary cloud provider for baseline workloads.
+This RFC does not decide the provider inside this skill repository. During a real project run, compare candidates against the criteria above and document the recommendation, including:
+- scope assumptions
+- tradeoffs and risks
+- required mitigations and portability constraints
 
 ## Decision linkage
-This RFC is finalized by `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md` (Accepted).
+This RFC is finalized by `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md` once the decision is made for a specific project.

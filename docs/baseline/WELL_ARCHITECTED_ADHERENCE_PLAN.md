@@ -3,9 +3,9 @@ doc_id: WELLARCH-BASE-001
 doc_type: well_architected_adherence_plan
 status: draft
 phase: baseline
-provider: aws
-framework_name: AWS Well-Architected Framework
-framework_version: latest reviewed 2026-01-15
+provider: unselected
+framework_name: Well-Architected Framework (selected post-decision)
+framework_version: selected post-decision
 owner: architecture-working-group
 review_cadence: monthly
 last_reviewed: 2026-01-20
@@ -14,6 +14,7 @@ related_docs:
   - docs/baseline/SYSTEM_CHARTER.md
   - docs/baseline/C4_Context.md
   - docs/baseline/C4_Container.md
+  - docs/baseline/PROVIDER_COMPARISON_RFC.md
   - docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md
 evidence_log: docs/audit/EVIDENCE_LOG.md
 ---
@@ -21,39 +22,42 @@ evidence_log: docs/audit/EVIDENCE_LOG.md
 # Well-Architected Adherence Plan
 
 ## 1. Purpose
-Define how the system satisfies the AWS Well-Architected Framework, including pillar ownership, review cadence, evidence expectations, and the baseline gate used by downstream skills.
+Define how this repository’s baseline produces Well-Architected-governed documentation regardless of which provider is selected (AWS/Azure/GCP). Provider-specific pillar mapping is materialized after the provider decision using provider packs.
 
-## 2. Framework Selection
-- **Provider:** aws
-- **Framework name:** AWS Well-Architected Framework
-- **Framework version / review date:** latest reviewed 2026-01-15
-- **Scope of adherence:** entire_system
+## 2. Provider Selection Procedure
+This repository treats provider selection as a first-class decision. The baseline workflow is:
+1. Create/maintain the provider comparison RFC: `docs/baseline/PROVIDER_COMPARISON_RFC.md`
+2. Decide and record the selected provider in an ADR: `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md`
+3. Materialize provider-specific Well-Architected mapping from the chosen provider pack (see section 3).
 
-## 3. Definitions
-- **Pillar:** AWS prescriptive guidance area (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization).
-- **Control / Practice:** A measurable requirement mapped to a pillar.
-- **Evidence:** Artifacts demonstrating implementation (IaC, logs, configs, ADRs, test runs).
-- **Exception:** Approved deviation with compensating controls and expiry.
+## 3. Provider Packs
+Provider packs are the canonical location for provider-specific pillar sets, required doc families, and evidence expectations:
+- AWS: `custom_skills/arch-baseline/resources/provider_packs/aws/`
+- Azure: `custom_skills/arch-baseline/resources/provider_packs/azure/`
+- GCP: `custom_skills/arch-baseline/resources/provider_packs/gcp/`
 
-## 4. Pillar-to-Documentation Mapping (Required)
-Populate all pillars for the chosen provider. Each row is a commitment that must be satisfied or explicitly waived.
+Each pack must contain, at minimum:
+- pillar definitions (canonical names)
+- required doc families per provider
+- control mappings / evidence expectations per provider
 
-| Pillar | Mandatory? (Y/N) | Key Practices / Controls (summary) | Required Architecture Docs / Sections | Required Evidence Types | Owner | Review Cadence |
-|---|---:|---|---|---|---|---|
-| Operational Excellence | Y | IaC pipelines, standardized runbooks, automated drift detection | docs/architecture/ops/RUNBOOK.md | CI job logs, drift reports, runbook revisions | operations-lead | monthly |
-| Security | Y | IAM least privilege, encryption, network segmentation | docs/architecture/security/THREAT_MODEL.md | IAM policy diffs, KMS config, VPC diagrams | security-lead | monthly |
-| Reliability | Y | Multi-AZ deployments, backup testing, chaos drills | docs/architecture/reliability.md | Backup reports, failover test logs, chaos runbooks | reliability-lead | monthly |
-| Performance Efficiency | Y | Right-sized compute, telemetry-driven scaling, caching | docs/architecture/performance.md | Load tests, autoscaling metrics, cache hit ratios | performance-lead | quarterly |
-| Cost Optimization | Y | Tagging, budget alarms, capacity reviews | docs/architecture/cost.md | Cost Explorer exports, tagging compliance scans | finance-liaison | quarterly |
+## 4. Materializing Pillar Mapping Post-Decision
+When the provider decision ADR is Accepted, the baseline process must:
+- set `provider` in this document to the selected provider (`aws`, `azure`, or `gcp`)
+- set `framework_name` and `framework_version` to the selected framework
+- replace this template-mode section 4 with a provider-specific “Pillar-to-Documentation Mapping” table sourced from the chosen provider pack
+- ensure every normative requirement is traceable to evidence or an ADR/RFC exception process
 
-## 5. Baseline Requirements (Non-Negotiable)
+This keeps the repo provider-neutral while still producing deterministic, provider-specific outputs during real project runs.
+
+## 5. Baseline Requirements (Provider-Agnostic)
 These requirements apply regardless of provider. If compliance is not possible, an exception must be logged.
 
 ### 5.1 Security Baseline
-- Enforce least-privilege IAM roles with session tagging and CloudTrail auditing.
-- Encrypt all data at rest with AWS KMS CMKs; enforce TLS 1.2+ for data in transit.
-- Forward security logs to the audit account with retention >= 400 days.
-- Apply data classification labels to every dataset; restrict PII movement between accounts.
+- Enforce least-privilege access controls and audit access changes.
+- Encrypt sensitive data at rest and in transit using provider-approved mechanisms.
+- Maintain security-relevant logs with retention aligned to organizational requirements.
+- Apply data classification labels and restrict sensitive data movement across trust boundaries.
 
 ### 5.2 Reliability Baseline
 - Publish SLO targets per service; document RTO/RPO values for shared data stores.
@@ -100,7 +104,8 @@ Every pillar row must reference at least one architecture doc section and one ev
 ## 9. Acceptance Criteria (Baseline Gate)
 Baseline is green only when:
 - Provider/framework metadata is populated with concrete values.
-- Pillar table covers all AWS pillars with owners and cadences.
+- Provider selection procedure and provider pack references are present in template-mode.
+- After provider selection, pillar mapping is materialized from the chosen provider pack with owners/cadences.
 - Evidence storage locations exist and are accessible.
 - Exception workflow is documented and linked to ADRs.
 - Related baseline documents exist and link to this plan.

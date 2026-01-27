@@ -1,19 +1,24 @@
-# ADR-001: Select AWS as the Primary Cloud Provider
+# ADR-001: Cloud Provider Decision (Template)
 
 ## Status
-Accepted
+Template
 
 ## Context
 The system requires global availability, mature managed services, and an operational/compliance posture aligned with organizational controls. Candidate providers were AWS, Azure, and GCP.
 
 ## Decision
-Adopt AWS as the system-of-record provider for all baseline workloads. Azure and GCP remain evaluation targets for future redundancy, but all governance artifacts assume AWS primitives.
+This ADR records the chosen primary cloud provider for a specific project run. When used in a real project baseline, replace this template section with the selected provider and the scope of that decision (e.g., which environments/workloads are in-scope).
 
 ## Rationale
-- Existing operations team holds AWS expertise and runbooks.
-- AWS provides validated IoT Core + Kinesis pipeline capabilities with managed scaling.
-- Compliance (ISO 45001, ISO 27001, SOC 2) already mapped to corporate controls.
+Document the reasoned tradeoffs that led to the decision, including:
+- team readiness and operating model
+- service fit for required workloads
+- security and compliance considerations
+- cost and performance posture
+- portability constraints and mitigations
 
 ## Consequences
-- All reference architectures, security controls, and implementation strategies must align with AWS terminology.
+Once a provider is selected for a project run:
+- Provider packs become authoritative for pillar mapping and doc family requirements.
+- Downstream docs and implementation strategy must align with the selected provider’s terminology and Well-Architected framework.
 - Any multi-cloud initiative requires a separate ADR plus dependency impact review.

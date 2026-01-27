@@ -3,6 +3,14 @@
 ## Purpose
 Define the canonical documentation system-of-record for this repository and the rules that keep architecture work deterministic, auditable, and reviewable.
 
+## What `docs/baseline/` represents in this repo
+`docs/baseline/` in this repository is **template baseline scaffolding** for the skill bundle itself.
+
+Real project baselines are expected to be generated in the user’s target repository (or workspace) during an actual `arch-baseline` run. That run will:
+- author a project-specific provider comparison RFC + provider decision ADR
+- select a provider (AWS/Azure/GCP)
+- materialize provider-specific pillar mapping and doc requirements from the chosen provider pack
+
 ## Canonical locations
 - Baseline (owned by `arch-baseline`): `docs/baseline/`
 - Architecture (owned by `arch-docs`): `docs/architecture/`
@@ -42,4 +50,3 @@ Each skill execution must create a run folder under `docs/audit/<skill>/<run-id>
 - `FILES_CHANGED.md`
 - `OPEN_ITEMS.md`
 - `QUALITY_GATE_REPORT.md` (when applicable)
-
