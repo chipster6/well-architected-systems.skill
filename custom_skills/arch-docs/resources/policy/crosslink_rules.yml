@@ -1,0 +1,15 @@
+version: 1
+required_links:
+  baseline:
+    - path: "docs/baseline/BASELINE_INDEX.md"
+      reason: "Architecture docs must anchor to the baseline index."
+    - path: "docs/baseline/BASELINE_HANDOFF.md"
+      reason: "Architecture docs must acknowledge baseline handoff/invariants."
+    - path: "docs/baseline/WELL_ARCHITECTED_ADHERENCE_PLAN.md"
+      reason: "Architecture docs must map to the selected provider framework/pillars."
+rules:
+  - id: "arch-docs-must-link-baseline"
+    applies_to_glob: "docs/architecture/*.md"
+    must_reference_paths:
+      - "docs/baseline/BASELINE_INDEX.md"
+      - "docs/baseline/WELL_ARCHITECTED_ADHERENCE_PLAN.md"

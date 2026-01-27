@@ -1,0 +1,16 @@
+version: 1
+gates:
+  - id: "baseline-pass"
+    description: "Baseline gate must pass before strategy work starts."
+    required_artifacts:
+      - "docs/baseline/BASELINE_HANDOFF.md"
+      - "docs/baseline/baseline_manifest.json"
+      - "docs/baseline/WELL_ARCHITECTED_ADHERENCE_PLAN.md"
+  - id: "arch-docs-present"
+    description: "Architecture docs must exist to derive a task DAG."
+    required_directories:
+      - "docs/architecture"
+  - id: "impl-output-root"
+    description: "Implementation output root must exist before writing strategy artifacts."
+    required_directories:
+      - "docs/implementation"

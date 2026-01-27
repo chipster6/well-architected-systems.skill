@@ -5,6 +5,10 @@
 # Heap dump snapshots
 Heap-*.heapsnapshot
 
+# Python bytecode caches
+__pycache__/
+*.py[cod]
+
 # Generated audit outputs outside canonical folders
 docs/.DS_Store
 docs/baseline/.DS_Store

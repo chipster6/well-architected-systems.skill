@@ -1,0 +1,28 @@
+version: 1
+doc_types:
+  ARC_OVERVIEW:
+    required_headings:
+      - "# Architecture Overview"
+      - "## Scope"
+      - "## System Context"
+      - "## Key Decisions"
+      - "## Well-Architected Mapping"
+  SECURITY_ARCHITECTURE:
+    required_headings:
+      - "# Security Architecture"
+      - "## Trust Boundaries"
+      - "## Identity and Access"
+      - "## Data Protection"
+      - "## Detection and Response"
+  THREAT_MODEL:
+    required_headings:
+      - "# Threat Model"
+      - "## Assets"
+      - "## Threats"
+      - "## Mitigations"
+  OPERATIONS_MODEL:
+    required_headings:
+      - "# Operations Model"
+      - "## Observability"
+      - "## Incident Response"
+      - "## SLOs and Error Budgets"

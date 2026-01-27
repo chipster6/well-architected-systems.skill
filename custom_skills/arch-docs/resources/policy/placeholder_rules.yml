@@ -1,0 +1,12 @@
+version: 1
+fail_closed: true
+disallowed_tokens:
+  - "TODO"
+  - "TBD"
+  - "FIXME"
+  - "<<INSERT"
+  - "[[PLACEHOLDER]]"
+scope:
+  applies_to_glob:
+    - "docs/architecture/*.md"
+    - "docs/contracts/*.md"
