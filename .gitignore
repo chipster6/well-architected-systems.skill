@@ -1,5 +1,6 @@
 # OS X filesystem artifacts
 .DS_Store
+**/.DS_Store
 
 # Heap dump snapshots
 Heap-*.heapsnapshot
