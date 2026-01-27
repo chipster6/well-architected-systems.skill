@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "provider_pack.schema.json",
+  "title": "Provider Pack Schema (v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "provider",
+    "version",
+    "reviewed_at",
+    "recency_days",
+    "pillar_ids"
+  ],
+  "properties": {
+    "provider": {
+      "type": "string",
+      "enum": ["aws", "azure", "gcp"]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_at": {
+      "type": "string",
+      "minLength": 8
+    },
+    "recency_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "pillar_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
+

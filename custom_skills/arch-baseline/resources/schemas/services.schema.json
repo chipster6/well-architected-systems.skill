@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "services.schema.json",
+  "title": "Provider Services Catalog Schemas (v1)",
+  "description": "Schemas for provider pack service taxonomy and service catalog files. Enforced by validate_provider_pack.py.",
+  "$defs": {
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "categories"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "categories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "compute",
+            "storage",
+            "networking",
+            "identity",
+            "security",
+            "observability",
+            "governance_management",
+            "devtools_cicd",
+            "integration_messaging",
+            "data_analytics",
+            "machine_learning",
+            "genai",
+            "ai_agents"
+          ],
+          "properties": {
+            "compute": { "$ref": "#/$defs/category" },
+            "storage": { "$ref": "#/$defs/category" },
+            "networking": { "$ref": "#/$defs/category" },
+            "identity": { "$ref": "#/$defs/category" },
+            "security": { "$ref": "#/$defs/category" },
+            "observability": { "$ref": "#/$defs/category" },
+            "governance_management": { "$ref": "#/$defs/category" },
+            "devtools_cicd": { "$ref": "#/$defs/category" },
+            "integration_messaging": { "$ref": "#/$defs/category" },
+            "data_analytics": {
+              "allOf": [
+                { "$ref": "#/$defs/category" },
+                {
+                  "required": ["subcategories"],
+                  "properties": {
+                    "subcategories": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "batch_etl",
+                          "stream_processing",
+                          "query_engine",
+                          "data_warehouse",
+                          "lakehouse",
+                          "bi_visualization",
+                          "data_catalog_governance"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "machine_learning": {
+              "allOf": [
+                { "$ref": "#/$defs/category" },
+                {
+                  "required": ["subcategories"],
+                  "properties": {
+                    "subcategories": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "training",
+                          "inference_hosting",
+                          "feature_store",
+                          "mlops_pipelines",
+                          "model_registry",
+                          "data_labeling",
+                          "ml_monitoring"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "genai": {
+              "allOf": [
+                { "$ref": "#/$defs/category" },
+                {
+                  "required": ["subcategories"],
+                  "properties": {
+                    "subcategories": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "foundation_models",
+                          "prompt_orchestration",
+                          "rag_tooling",
+                          "vector_store",
+                          "model_customization",
+                          "safety_guardrails",
+                          "evals_observability"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "ai_agents": {
+              "allOf": [
+                { "$ref": "#/$defs/category" },
+                {
+                  "required": ["subcategories"],
+                  "properties": {
+                    "subcategories": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "agent_runtime",
+                          "tool_connectors",
+                          "function_calling",
+                          "knowledge_connectors",
+                          "workflow_orchestration",
+                          "agent_observability",
+                          "policy_governance"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "display_name": { "type": "string" },
+        "subcategories": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "services_core": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "services"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "services": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/service" }
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service_id",
+        "display_name",
+        "category",
+        "short_description",
+        "key_capabilities",
+        "common_use_cases",
+        "references"
+      ],
+      "properties": {
+        "service_id": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "compute",
+            "storage",
+            "networking",
+            "identity",
+            "security",
+            "observability",
+            "governance_management",
+            "devtools_cicd",
+            "integration_messaging",
+            "data_analytics",
+            "machine_learning",
+            "genai",
+            "ai_agents"
+          ]
+        },
+        "subcategory": { "type": "string" },
+        "short_description": { "type": "string", "minLength": 10 },
+        "key_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "common_use_cases": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "pricing_model_hint": { "type": "string" },
+        "references": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
