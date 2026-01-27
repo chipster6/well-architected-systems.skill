@@ -21,7 +21,7 @@ evidence_log: docs/audit/EVIDENCE_LOG.md
 # Well-Architected Adherence Plan
 
 ## 1. Purpose
-Define how the CloudRail control plane satisfies the AWS Well-Architected Framework, including pillar ownership, review cadence, evidence expectations, and the baseline gate used by downstream skills.
+Define how the system satisfies the AWS Well-Architected Framework, including pillar ownership, review cadence, evidence expectations, and the baseline gate used by downstream skills.
 
 ## 2. Framework Selection
 - **Provider:** aws
@@ -71,7 +71,7 @@ Describe how well-architected reviews are executed and how artifacts are capture
 ### 6.1 Review Events
 - **Baseline review:** triggered when baseline artifacts are first approved.
 - **Milestone review:** executed at each quarterly release gate.
-- **Pre-production review:** executed before enabling new rail corridors.
+- **Pre-production review:** executed before enabling a new production environment, region, or major workload.
 
 ### 6.2 Review Output Artifacts
 - Summary of findings, categorized by pillar risk.

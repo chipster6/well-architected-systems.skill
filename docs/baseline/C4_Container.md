@@ -1,11 +1,11 @@
-# CloudRail Container View Notes
+# Container View Notes
 
-Primary containers within the CloudRail Control Plane:
+Primary containers within the Control Plane:
 
-1. **Ingress/API Gateway** – Terminates client connections, enforces authentication, and forwards calls to service mesh entrypoints. Runs on AWS API Gateway + Lambda authorizers.
-2. **Command Orchestrator** – Coordinates routing plans and sends directives to fleets; implemented as an ECS service with Step Functions for long-running workflows.
-3. **Telemetry Pipeline** – Kinesis streams capture train telemetry, store in S3/Lake Formation, and forward incidents to the analytics workspace.
-4. **Safety Rules Engine** – Evaluates guardrails, halts trains when violations are detected, and records evidence in DynamoDB with point-in-time recovery enabled.
-5. **Operations Portal** – React + Amplify application used by supervisors for dashboards, playbooks, and approvals.
+1. **Ingress/API Gateway** – Terminates client connections, enforces authentication, and forwards calls to service entrypoints. (AWS example: API Gateway + Lambda authorizers.)
+2. **Command Orchestrator** – Coordinates long-running workflows and dispatches directives. (AWS example: ECS + Step Functions.)
+3. **Telemetry Pipeline** – Captures telemetry, stores it durably, and routes signals to analytics/alerts. (AWS example: Kinesis + S3.)
+4. **Rules Engine** – Evaluates guardrails, triggers mitigations, and records evidence. (AWS example: DynamoDB with point-in-time recovery.)
+5. **Operations Portal** – UI for dashboards, playbooks, and approvals.
 
-Inter-container contracts are documented in the architecture RFCs and reference shared schemas stored in the service catalog.
+Inter-container contracts are documented in architecture documentation and reference shared schemas stored in the registries and contract catalog.

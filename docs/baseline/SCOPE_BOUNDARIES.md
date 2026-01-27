@@ -1,7 +1,7 @@
 # Scope Boundaries (Baseline)
 
 ## In scope
-- Establishing baseline governance, provider selection, and Well-Architected adherence planning for the CloudRail system.
+- Establishing baseline governance, provider selection, and Well-Architected adherence planning for the system.
 - Defining canonical doc roots, audit logs, and normalized registries.
 - Producing C4 context/container baseline snapshots and foundational stubs (domain + contracts catalog).
 
@@ -18,4 +18,3 @@
 ## Data boundaries (high-level)
 - PII and sensitive operational data must not be exposed to unauthorized parties.
 - Data classification and retention requirements must be reflected in security controls and ops readiness standards.
-

@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-CloudRail requires global availability zones, proven rail-industry compliance programs, and native IoT capabilities. Candidate providers were AWS, Azure, and GCP.
+The system requires global availability, mature managed services, and an operational/compliance posture aligned with organizational controls. Candidate providers were AWS, Azure, and GCP.
 
 ## Decision
 Adopt AWS as the system-of-record provider for all baseline workloads. Azure and GCP remain evaluation targets for future redundancy, but all governance artifacts assume AWS primitives.

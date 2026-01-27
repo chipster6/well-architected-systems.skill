@@ -4,7 +4,7 @@
 Superseded (see `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md`)
 
 ## Context
-CloudRail requires global availability, strong managed streaming + IoT support, and compliance posture aligned with corporate controls. Candidate providers considered:
+The system requires global availability, strong managed streaming + IoT/edge support, and a compliance posture aligned with organizational controls. Candidate providers considered:
 - AWS
 - Azure
 - Google Cloud Platform (GCP)
@@ -34,4 +34,3 @@ Select AWS as the primary cloud provider for baseline workloads.
 
 ## Decision linkage
 This RFC is finalized by `docs/baseline/CLOUD_PROVIDER_DECISION_ADR.md` (Accepted).
-
