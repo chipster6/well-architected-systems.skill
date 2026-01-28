@@ -1,7 +1,10 @@
 ---
 name: arch-baseline
 version: "1.0"
-description: Establish project baseline governance, provider decision, post-decision research normalization, and Well-Architected adherence plan; emit a hard gate for downstream skills.
+description: >
+  Establish project baseline governance, provider decision, post-decision research normalization, and Well-Architected adherence plan; emit a hard gate for downstream skills.
+  Triggers: "baseline", "arch-baseline", "provider decision", "cloud provider", "Well-Architected plan", "baseline gate", "validate_baseline.py", "scaffold_baseline.py".
+  Fails closed on missing mandatory artifacts or empty required controls.
 ---
 
 # arch-baseline — Baseline Governance + Provider Decision + Research-Normalized Well-Architected Plan

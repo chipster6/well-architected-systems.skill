@@ -142,6 +142,23 @@ def load_manifest(manifest_path: Path) -> dict | None:
         return None
 
 
+def check_no_placeholders(path: Path) -> bool:
+    """Check if file contains placeholder tokens like TODO, TBD, FIXME."""
+    if not path.exists() or path.is_dir():
+        return True
+
+    placeholders = ["TODO", "TBD", "FIXME", "REPLACE_ME"]
+    try:
+        content = path.read_text(encoding="utf-8")
+        for p in placeholders:
+            if p in content:
+                print(f"✗ File contains placeholder '{p}': {path}")
+                return False
+        return True
+    except Exception:
+        return True
+
+
 def check_manifest_dependencies(manifest: dict, fail_empty_registries: bool) -> bool:
     ok = True
     artifacts = manifest.get("artifacts", [])
@@ -160,6 +177,13 @@ def check_manifest_dependencies(manifest: dict, fail_empty_registries: bool) -> 
         expected_type = "directory" if artifact.get("type") == "directory" else None
         if not check_path_exists(path, f"Artifact {artifact.get('id', '')}", expected_type):
             ok = False
+            continue
+
+        # Enforce no_placeholders if specified
+        validators = artifact.get("validators", [])
+        if "no_placeholders" in validators and path.is_file():
+            if not check_no_placeholders(path):
+                ok = False
 
     print("\n2. Checking registries (mandatory)...")
     for registry in registries:
