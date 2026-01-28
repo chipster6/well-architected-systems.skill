@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "id": "TASK-0001",
+      "title": "Infrastructure Setup",
+      "description": "Initialize cloud environment based on baseline provider selection.",
+      "prerequisites": [],
+      "outputs": [
+        "env_ready"
+      ],
+      "validation": "Check provider console/CLI for resources.",
+      "acceptance_criteria": "VPC/Network and IAM roles exist."
+    },
+    {
+      "id": "TASK-0002",
+      "title": "Core API Implementation",
+      "description": "Develop core API services as defined in SERVICE_CATALOG.md.",
+      "prerequisites": [
+        "TASK-0001"
+      ],
+      "outputs": [
+        "api_deployed"
+      ],
+      "validation": "Run integration tests against dev endpoint.",
+      "acceptance_criteria": "API returns 200 OK for health check."
+    },
+    {
+      "id": "TASK-0003",
+      "title": "Security Hardening",
+      "description": "Apply security controls from THREAT_MODEL.md.",
+      "prerequisites": [
+        "TASK-0001"
+      ],
+      "outputs": [
+        "security_hardened"
+      ],
+      "validation": "Run security scanning tool.",
+      "acceptance_criteria": "Zero high-critical vulnerabilities."
+    },
+    {
+      "id": "TASK-0004",
+      "title": "Production Readiness",
+      "description": "Finalize operations model and monitoring.",
+      "prerequisites": [
+        "TASK-0002",
+        "TASK-0003"
+      ],
+      "outputs": [
+        "prod_ready"
+      ],
+      "validation": "Run production readiness checklist.",
+      "acceptance_criteria": "SLOs are configured and monitored."
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-01-28T09:35:34Z"
+  }
+}

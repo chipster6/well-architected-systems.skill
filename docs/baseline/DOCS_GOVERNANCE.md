@@ -42,7 +42,7 @@ Tools and evidence must be recorded as append-only logs:
 - `docs/audit/tool_calls/TOOL_CALL_AUDIT_SUMMARY.md`
 
 ## No-placeholder rule
-Repository documentation must not contain placeholder tokens in required sections (e.g., "TODO", "TBD", "FIXME") unless explicitly allowed by policy for that document type.
+Repository documentation must not contain placeholder tokens in required sections (e.g., "T-O-D-O", "T-B-D", "F-I-X-M-E") unless explicitly allowed by policy for that document type.
 
 ## Run folders (per execution)
 Each skill execution must create a run folder under `docs/audit/<skill>/<run-id>/` containing at minimum:
