@@ -25,11 +25,7 @@ def decompose_phases():
 
     tasks = dag.get("tasks", [])
 
-    # Simple phase grouping:
-    # Phase 0: Tasks with no prerequisites
-    # Phase 1: Tasks that only depend on Phase 0
-    # ...
-
+    # Sort tasks into phases based on dependencies
     phases = []
     processed_task_ids = set()
     remaining_tasks = tasks[:]
@@ -45,7 +41,10 @@ def decompose_phases():
                 next_remaining.append(task)
 
         if not current_phase_tasks:
-            print("✗ Cyclic dependency detected in TASK_DAG.json")
+            if remaining_tasks:
+                print("✗ Cyclic dependency or missing prerequisite detected in TASK_DAG.json")
+                # Add remaining tasks as a "forced" last phase to allow visibility
+                phases.append(remaining_tasks)
             break
 
         phases.append(current_phase_tasks)
@@ -55,13 +54,20 @@ def decompose_phases():
 
     # Generate Markdown
     content = "# Implementation Phase Plan\n\n"
+    content += "This plan is derived automatically from the implementation task graph.\n\n"
+
+    phase_names = ["Foundation", "Core Implementation", "Refinement & Hardening", "Launch Readiness"]
+
     for i, phase_tasks in enumerate(phases):
-        content += f"## Phase {i}: {['Foundation', 'Execution', 'Refinement', 'Completion'][min(i, 3)]}\n"
+        p_name = phase_names[i] if i < len(phase_names) else f"Phase {i}"
+        content += f"## Phase {i}: {p_name}\n\n"
         for task in phase_tasks:
             content += f"### {task['id']}: {task['title']}\n"
             content += f"- **Description**: {task['description']}\n"
             content += f"- **Prerequisites**: {', '.join(task['prerequisites']) or 'None'}\n"
-            content += f"- **Validation**: {task['validation']}\n\n"
+            content += f"- **Outputs**: {', '.join(task.get('outputs', [])) or 'None'}\n"
+            content += f"- **Validation**: {task.get('validation', 'TBD')}\n"
+            content += f"- **Acceptance Criteria**: {task.get('acceptance_criteria', 'TBD')}\n\n"
 
     phase_plan_path.write_text(content)
     print(f"✓ Generated: {phase_plan_path}")

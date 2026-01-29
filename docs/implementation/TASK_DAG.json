@@ -2,58 +2,57 @@
   "version": "1.0",
   "tasks": [
     {
-      "id": "TASK-0001",
-      "title": "Infrastructure Setup",
-      "description": "Initialize cloud environment based on baseline provider selection.",
+      "id": "TASK-INFRA-001",
+      "title": "Cloud Foundation",
+      "description": "Establish the landing zone and core network.",
       "prerequisites": [],
       "outputs": [
-        "env_ready"
+        "infrastructure_ready"
       ],
-      "validation": "Check provider console/CLI for resources.",
-      "acceptance_criteria": "VPC/Network and IAM roles exist."
+      "validation": "Verify VPC/IAM roles via cloud CLI.",
+      "acceptance_criteria": "Network and security groups exist."
     },
     {
-      "id": "TASK-0002",
-      "title": "Core API Implementation",
-      "description": "Develop core API services as defined in SERVICE_CATALOG.md.",
+      "id": "TASK-SVC-SERVICE-0001",
+      "title": "Implement core-api",
+      "description": "Primary API boundary for the system.",
       "prerequisites": [
-        "TASK-0001"
+        "TASK-INFRA-001"
       ],
       "outputs": [
-        "api_deployed"
+        "core-api_deployed"
       ],
-      "validation": "Run integration tests against dev endpoint.",
-      "acceptance_criteria": "API returns 200 OK for health check."
+      "validation": "Deploy core-api and run health check.",
+      "acceptance_criteria": "core-api returns 200 OK."
     },
     {
-      "id": "TASK-0003",
-      "title": "Security Hardening",
-      "description": "Apply security controls from THREAT_MODEL.md.",
+      "id": "TASK-SEC-SECCTRL-0001",
+      "title": "Security: Least privilege access",
+      "description": "Ensure identities only have permissions required for their role.",
       "prerequisites": [
-        "TASK-0001"
+        "TASK-INFRA-001"
       ],
       "outputs": [
-        "security_hardened"
+        "control_SECCTRL-0001_applied"
       ],
-      "validation": "Run security scanning tool.",
-      "acceptance_criteria": "Zero high-critical vulnerabilities."
+      "validation": "Evidence of role definitions + review cadence; policy-as-code checks where applicable.",
+      "acceptance_criteria": "Compliance scan report matches control objective."
     },
     {
-      "id": "TASK-0004",
-      "title": "Production Readiness",
-      "description": "Finalize operations model and monitoring.",
+      "id": "TASK-SLO-SLO-0001",
+      "title": "Monitor SLO: API availability",
+      "description": "Configure SLI for API availability with target 99.9%.",
       "prerequisites": [
-        "TASK-0002",
-        "TASK-0003"
+        "TASK-SVC-SERVICE-0001"
       ],
       "outputs": [
-        "prod_ready"
+        "slo_SLO-0001_monitored"
       ],
-      "validation": "Run production readiness checklist.",
-      "acceptance_criteria": "SLOs are configured and monitored."
+      "validation": "Check dashboard for SLI metrics.",
+      "acceptance_criteria": "Alerting configured for API availability threshold."
     }
   ],
   "metadata": {
-    "generated_at": "2026-01-28T09:35:34Z"
+    "generated_at": "2026-01-29T01:07:35.399000+00:00"
   }
 }

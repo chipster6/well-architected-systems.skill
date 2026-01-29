@@ -9,9 +9,62 @@ import json
 import os
 import shutil
 import sys
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+def parse_simple_yaml(text):
+    """
+    Simple YAML parser for the specific structure used in catalogs.
+    """
+    result = {}
+    lines = text.splitlines()
+    current_key = None
+    current_list = None
+    current_item = None
+
+    for line in lines:
+        line = line.rstrip()
+        if not line or line.strip().startswith('#'):
+            continue
+
+        indent = len(line) - len(line.lstrip())
+        stripped = line.strip()
+
+        if stripped.startswith('-'):
+            if current_list is not None:
+                if current_item is not None:
+                    current_list.append(current_item)
+                current_item = {}
+                rest = stripped[1:].strip()
+                if ':' in rest:
+                    k, v = rest.split(':', 1)
+                    current_item[k.strip()] = v.strip().strip('"').strip("'")
+            continue
+
+        if ':' in stripped:
+            k, v = stripped.split(':', 1)
+            k = k.strip()
+            v = v.strip().strip('"').strip("'")
+
+            if not v:
+                if current_item is not None and indent > 0:
+                    current_item[k] = [] # Nested list (not fully supported)
+                else:
+                    current_key = k
+                    current_list = []
+                    result[current_key] = current_list
+                    current_item = None
+            else:
+                if current_item is not None:
+                    current_item[k] = v
+                else:
+                    result[k] = v
+
+    if current_list is not None and current_item is not None:
+        current_list.append(current_item)
+
+    return result
 
 def run_baseline_gate():
     """Run baseline gate to ensure we can proceed."""
@@ -30,7 +83,6 @@ def run_baseline_gate():
         return False
     return True
 
-
 def scaffold_docs(target_dir: Path):
     """Scaffold architecture documentation."""
     print(f"Scaffolding architecture docs in: {target_dir}")
@@ -41,9 +93,11 @@ def scaffold_docs(target_dir: Path):
     repo_root = Path(__file__).parent.parent.parent.parent
     templates_base = repo_root / "custom_skills" / "arch-docs" / "resources" / "templates"
     arch_docs_dir = target_dir / "docs" / "architecture"
+    services_dir = arch_docs_dir / "services"
 
     arch_docs_dir.mkdir(parents=True, exist_ok=True)
-    print(f"✓ Ensured directory: {arch_docs_dir}")
+    services_dir.mkdir(parents=True, exist_ok=True)
+    print(f"✓ Ensured directories: {arch_docs_dir}, {services_dir}")
 
     # Map templates to target files
     template_map = {
@@ -51,6 +105,7 @@ def scaffold_docs(target_dir: Path):
         "well-architected/WELL_ARCHITECTED_PILLAR_MATRIX.md": "WELL_ARCHITECTED_PILLAR_MATRIX.md",
         "security/THREAT_MODEL.md": "THREAT_MODEL.md",
         "ops/RUNBOOK.md": "OPERATIONS_MODEL.md",
+        "c4/DIAGRAM_GUIDE.md": "DIAGRAM_GUIDE.md",
     }
 
     for rel_path, dest_name in template_map.items():
@@ -58,7 +113,7 @@ def scaffold_docs(target_dir: Path):
         dest_path = arch_docs_dir / dest_name
 
         if template_path.exists():
-            if not dest_path.exists():
+            if not dest_path.exists() or dest_path.stat().st_size == 0:
                 shutil.copy2(template_path, dest_path)
                 print(f"✓ Created: {dest_path}")
             else:
@@ -66,19 +121,34 @@ def scaffold_docs(target_dir: Path):
         else:
             print(f"! Template not found: {template_path}")
 
+    # Handle Service Specs from Registry
+    service_catalog_path = repo_root / "registries" / "service_catalog.yml"
+    if service_catalog_path.exists():
+        catalog_content = service_catalog_path.read_text()
+        catalog = parse_simple_yaml(catalog_content)
+        services = catalog.get("services", [])
+
+        service_template_path = templates_base / "service" / "SERVICE_SPEC.md"
+
+        for svc in services:
+            svc_id = svc.get("id", "UNKNOWN")
+            svc_name = svc.get("name", "Unknown Service")
+            dest_path = services_dir / f"{svc_id}.md"
+
+            if not dest_path.exists() or dest_path.stat().st_size == 0:
+                content = f"# Service Specification: {svc_name}\n\n"
+                content += f"- **ID**: {svc_id}\n"
+                content += f"- **Type**: {svc.get('type', 'N/A')}\n"
+                content += f"- **Description**: {svc.get('description', 'N/A')}\n"
+                content += f"- **Owner**: {svc.get('owner_role', 'N/A')}\n\n"
+                content += "## Interface\n- TBD\n\n## Dependencies\n- TBD\n"
+
+                dest_path.write_text(content)
+                print(f"✓ Generated service spec: {dest_path}")
+
     # Initialize Index
-    index_path = arch_docs_dir / "ARCHITECTURE_INDEX.md"
-    if not index_path.exists():
-        index_content = "# Architecture Documentation Index\n\n"
-        index_content += "## Core Documents\n"
-        for dest_name in template_map.values():
-            index_content += f"- [{dest_name.replace('.md', '')}]({dest_name})\n"
-
-        index_path.write_text(index_content)
-        print(f"✓ Created index: {index_path}")
-
+    # We will call update_indexes.py separately or implement it here
     print("\nArchitecture scaffolding complete.")
-
 
 def main():
     parser = argparse.ArgumentParser(description="Scaffold architecture documentation.")
@@ -86,7 +156,6 @@ def main():
     args = parser.parse_args()
 
     scaffold_docs(Path(args.target))
-
 
 if __name__ == "__main__":
     main()

@@ -26,10 +26,8 @@ def plan_worktrees():
     tasks = dag.get("tasks", [])
 
     content = "# Parallel Worktree Plan\n\n"
-    content += "The following tasks can be executed in parallel based on current dependencies:\n\n"
-
-    # Simple logic: tasks in the same phase (from decompose_phases logic) are parallelizable
-    # (assuming they don't share limited resources)
+    content += "The following tasks can be executed in parallel based on current dependencies.\n"
+    content += "Each 'Stream' below represents a set of tasks that are mutually independent or share the same prerequisites.\n\n"
 
     processed_task_ids = set()
     remaining_tasks = tasks[:]
@@ -46,9 +44,11 @@ def plan_worktrees():
                 next_remaining.append(task)
 
         if current_phase_tasks:
-            content += f"## Parallel Stream {phase_idx}\n"
+            content += f"## Workstream Phase {phase_idx}\n"
+            content += "These tasks have all their prerequisites met and can proceed in parallel:\n\n"
             for t in current_phase_tasks:
-                content += f"- [ ] {t['id']}: {t['title']}\n"
+                content += f"- [ ] **{t['id']}**: {t['title']}\n"
+                content += f"  - *Requires*: {', '.join(t['prerequisites']) or 'Start'}\n"
             content += "\n"
 
             for t in current_phase_tasks:

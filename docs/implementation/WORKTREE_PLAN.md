@@ -1,13 +1,25 @@
 # Parallel Worktree Plan
 
-The following tasks can be executed in parallel based on current dependencies:
+The following tasks can be executed in parallel based on current dependencies.
+Each 'Stream' below represents a set of tasks that are mutually independent or share the same prerequisites.
 
-## Parallel Stream 0
-- [ ] TASK-0001: Infrastructure Setup
+## Workstream Phase 0
+These tasks have all their prerequisites met and can proceed in parallel:
 
-## Parallel Stream 1
-- [ ] TASK-0002: Core API Implementation
-- [ ] TASK-0003: Security Hardening
+- [ ] **TASK-INFRA-001**: Cloud Foundation
+  - *Requires*: Start
 
-## Parallel Stream 2
-- [ ] TASK-0004: Production Readiness
+## Workstream Phase 1
+These tasks have all their prerequisites met and can proceed in parallel:
+
+- [ ] **TASK-SVC-SERVICE-0001**: Implement core-api
+  - *Requires*: TASK-INFRA-001
+- [ ] **TASK-SEC-SECCTRL-0001**: Security: Least privilege access
+  - *Requires*: TASK-INFRA-001
+
+## Workstream Phase 2
+These tasks have all their prerequisites met and can proceed in parallel:
+
+- [ ] **TASK-SLO-SLO-0001**: Monitor SLO: API availability
+  - *Requires*: TASK-SVC-SERVICE-0001
+
