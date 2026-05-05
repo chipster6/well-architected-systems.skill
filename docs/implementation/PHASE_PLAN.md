@@ -1,24 +1,38 @@
 # Implementation Phase Plan
 
+This plan is derived automatically from the implementation task graph.
+
 ## Phase 0: Foundation
-### TASK-0001: Infrastructure Setup
-- **Description**: Initialize cloud environment based on baseline provider selection.
+
+### TASK-INFRA-001: Cloud Foundation
+- **Description**: Establish the landing zone and core network.
 - **Prerequisites**: None
-- **Validation**: Check provider console/CLI for resources.
+- **Outputs**: infrastructure_ready
+- **Validation**: Verify VPC/IAM roles via cloud CLI.
+- **Acceptance Criteria**: Network and security groups exist.
 
-## Phase 1: Execution
-### TASK-0002: Core API Implementation
-- **Description**: Develop core API services as defined in SERVICE_CATALOG.md.
-- **Prerequisites**: TASK-0001
-- **Validation**: Run integration tests against dev endpoint.
+## Phase 1: Core Implementation
 
-### TASK-0003: Security Hardening
-- **Description**: Apply security controls from THREAT_MODEL.md.
-- **Prerequisites**: TASK-0001
-- **Validation**: Run security scanning tool.
+### TASK-SVC-SERVICE-0001: Implement core-api
+- **Description**: Primary API boundary for the system.
+- **Prerequisites**: TASK-INFRA-001
+- **Outputs**: core-api_deployed
+- **Validation**: Deploy core-api and run health check.
+- **Acceptance Criteria**: core-api returns 200 OK.
 
-## Phase 2: Refinement
-### TASK-0004: Production Readiness
-- **Description**: Finalize operations model and monitoring.
-- **Prerequisites**: TASK-0002, TASK-0003
-- **Validation**: Run production readiness checklist.
+### TASK-SEC-SECCTRL-0001: Security: Least privilege access
+- **Description**: Ensure identities only have permissions required for their role.
+- **Prerequisites**: TASK-INFRA-001
+- **Outputs**: control_SECCTRL-0001_applied
+- **Validation**: Evidence of role definitions + review cadence; policy-as-code checks where applicable.
+- **Acceptance Criteria**: Compliance scan report matches control objective.
+
+## Phase 2: Refinement & Hardening
+
+### TASK-SLO-SLO-0001: Monitor SLO: API availability
+- **Description**: Configure SLI for API availability with target 99.9%.
+- **Prerequisites**: TASK-SVC-SERVICE-0001
+- **Outputs**: slo_SLO-0001_monitored
+- **Validation**: Check dashboard for SLI metrics.
+- **Acceptance Criteria**: Alerting configured for API availability threshold.
+
